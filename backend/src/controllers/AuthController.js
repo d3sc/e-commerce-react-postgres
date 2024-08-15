@@ -41,7 +41,7 @@ export async function login(req, res) {
     if (!matchPassword) throw new Error("Login Error, code pw01");
 
     jwt.sign(
-      { email, name: user.name },
+      { id: user.id, email, name: user.name },
       process.env.JWT_SECRET,
       {},
       (err, token) => {

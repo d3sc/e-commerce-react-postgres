@@ -7,7 +7,7 @@ export async function getProducts(req, res) {
   res.send(product);
 }
 
-export async function showProducts(req, res) {
+export async function showProduct(req, res) {
   const { id } = req.query;
   const product = await prisma.product.findFirst({
     where: {

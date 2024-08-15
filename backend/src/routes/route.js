@@ -6,7 +6,7 @@ import {
   storeProduct,
   updateProduct,
   deleteProduct,
-  showProducts,
+  showProduct,
 } from "../controllers/ProductController.js";
 import {
   getProfile,
@@ -14,6 +14,12 @@ import {
   logout,
   register,
 } from "../controllers/AuthController.js";
+import { getLikes } from "../controllers/LikesController.js";
+import {
+  changeQty,
+  deleteCartItem,
+  getCart,
+} from "../controllers/CartController.js";
 
 // auth route
 router.post("/register", register);
@@ -23,9 +29,19 @@ router.get("/logout", logout);
 
 // products route
 router.get("/products", getProducts);
-router.get("/product", showProducts);
+router.get("/product", showProduct);
 router.post("/product", storeProduct);
 router.put("/product", updateProduct);
 router.delete("/product", deleteProduct);
+
+// likes route
+router.get("/likes", getLikes);
+
+// cart route
+router.get("/cart", getCart);
+router.delete("/cart-item", deleteCartItem);
+
+// quantity handle route
+router.post("/qty", changeQty);
 
 export default router;

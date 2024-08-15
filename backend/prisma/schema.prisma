@@ -23,8 +23,8 @@ model Product {
   description String
   image       String
 
-  cart   Cart @relation(fields: [cartId], references: [id])
-  cartId Int
+  cart  Cart_item[]
+  likes Likes[]
 }
 
 model User {
@@ -36,14 +36,40 @@ model User {
   email    String
   password String
 
-  cart Cart?
+  cart  Cart?
+  likes Likes[]
 }
 
 model Cart {
   id Int @id @default(autoincrement())
 
-  product Product[]
+  cart_item Cart_item[]
 
-  user   User @relation(fields: [userId], references: [id])
   userId Int  @unique
+  user   User @relation(fields: [userId], references: [id])
+}
+
+model Cart_item {
+  id Int @id @default(autoincrement())
+
+  quantity Int
+
+  productId Int
+  product   Product @relation(fields: [productId], references: [id])
+
+  cartId Int
+  cart   Cart @relation(fields: [cartId], references: [id])
+}
+
+model Likes {
+  id Int @id @default(autoincrement())
+
+  productId Int
+  product   Product @relation(fields: [productId], references: [id])
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+
+  // userId Int
+  // user   User @relation(fields: [userId], references: [id])
 }

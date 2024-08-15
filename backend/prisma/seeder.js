@@ -13,13 +13,20 @@ const createSeeder = async () => {
       password: faker.internet.password(),
     },
   });
+  const admin = await prisma.user.create({
+    data: {
+      name: "admin",
+      email: "admin@gmail.com",
+      password: "adminkece01",
+    },
+  });
 
   const cart = await prisma.cart.create({
     data: {
-      userId: user.id,
+      userId: admin.id,
     },
     include: {
-      product: true,
+      cart_item: true,
     },
   });
 
@@ -29,7 +36,6 @@ const createSeeder = async () => {
       price: parseInt(Math.trunc(faker.commerce.price())),
       description: faker.commerce.productDescription(),
       image: faker.image.url(),
-      cartId: cart.id,
     },
   });
   const product2 = await prisma.product.create({
@@ -38,7 +44,24 @@ const createSeeder = async () => {
       price: parseInt(Math.trunc(faker.commerce.price())),
       description: faker.commerce.productDescription(),
       image: faker.image.url(),
+    },
+  });
+
+  const cart_item1 = await prisma.cart_item.create({
+    data: {
+      quantity: 3,
+      productId: product1.id,
       cartId: cart.id,
+    },
+    include: {
+      product: true,
+    },
+  });
+
+  const likes = await prisma.likes.create({
+    data: {
+      productId: product2.id,
+      userId: admin.id,
     },
   });
 
@@ -47,24 +70,48 @@ const createSeeder = async () => {
       id: cart.id,
     },
     include: {
-      product: true,
-    },
-  });
-
-  const user1 = await prisma.user.findUnique({
-    where: {
-      id: user.id,
-    },
-    include: {
-      cart: {
+      cart_item: {
         select: {
+          quantity: true,
           product: true,
         },
       },
     },
   });
 
-  return { cart1, user1 };
+  const user1 = await prisma.user.findUnique({
+    where: {
+      id: admin.id,
+    },
+    include: {
+      cart: {
+        select: {
+          cart_item: {
+            select: {
+              quantity: true,
+              product: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  const likes1 = await prisma.likes.findMany({
+    where: {
+      id: likes.id,
+    },
+    include: {
+      product: true,
+    },
+  });
+
+  return { cart1, user1, cart_item1, likes1 };
 };
 
-// const { cart1: cart, user1 } = await createSeeder();
+const { cart1: cart, user1, cart_item1, likes1 } = await createSeeder();
+
+// console.log(cart[0].cart_item[0]);
+// console.log(user1.cart.cart_item[0]);
+// console.log(cart_item1);
+console.log(likes1);
