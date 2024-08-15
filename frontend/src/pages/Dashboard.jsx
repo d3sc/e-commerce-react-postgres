@@ -3,7 +3,9 @@ import ItemCard from "../components/dashboard/ItemCard";
 import Check from "../middleware/auth/Check";
 import { useEffect } from "react";
 import { ApiCarts, ApiLikes, ApiProducts } from "../helpers/api";
+import { AiOutlineProduct } from "react-icons/ai";
 import { Link } from "react-router-dom";
+import EmptyData from "../components/dashboard/EmptyData";
 
 export default function Dashboard() {
   Check.isGuest();
@@ -16,6 +18,13 @@ export default function Dashboard() {
   }, []);
 
   if (!data || !likes) return "Loading..";
+  if (data.length == 0 && likes.length == 0)
+    return (
+      <EmptyData
+        message={"this page still empty until you save more item"}
+        icon={AiOutlineProduct}
+      />
+    );
 
   return (
     <div className="mx-4">

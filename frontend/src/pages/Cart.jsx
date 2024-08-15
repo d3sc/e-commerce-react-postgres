@@ -2,27 +2,12 @@ import React, { useEffect, useState } from "react";
 import { ApiCarts } from "../helpers/api";
 import axios from "axios";
 import { BsCartPlus } from "react-icons/bs";
+import EmptyData from "../components/dashboard/EmptyData";
 
 function calculateTotalPrice(cartItems) {
   return cartItems
     ?.map((item) => item.quantity * item.product.price)
     .reduce((total, item) => total + item, 0);
-}
-
-function EmptyCart() {
-  return (
-    <div className="absolute inset-0 flex justify-center items-center">
-      <div className="grid place-items-center">
-        <h2 className="text-4xl text-gray-700">Oh no.. </h2>
-        <p className="text-xl text-gray-600">
-          it seems like you didnt have any item in cart
-        </p>
-        <button className="mt-5 inline-block rounded bg-indigo-600 px-6 py-3 font-medium text-white hover:bg-indigo-700">
-          <BsCartPlus size={25} />
-        </button>
-      </div>
-    </div>
-  );
 }
 
 export default function Cart() {
@@ -72,7 +57,13 @@ export default function Cart() {
     });
   }
 
-  if (!cartItems.length) return <EmptyCart />;
+  if (!cartItems.length)
+    return (
+      <EmptyData
+        message={"it seems like you didnt have any item in cart"}
+        icon={BsCartPlus}
+      />
+    );
 
   return (
     <div className="relative h-screen w-full">

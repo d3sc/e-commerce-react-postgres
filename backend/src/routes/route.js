@@ -14,7 +14,7 @@ import {
   logout,
   register,
 } from "../controllers/AuthController.js";
-import { getLikes } from "../controllers/LikesController.js";
+import { deleteLikes, getLikes } from "../controllers/LikesController.js";
 import {
   changeQty,
   deleteCartItem,
@@ -36,6 +36,7 @@ router.delete("/product", deleteProduct);
 
 // likes route
 router.get("/likes", getLikes);
+router.delete("/likes", deleteLikes);
 
 // cart route
 router.get("/cart", getCart);
