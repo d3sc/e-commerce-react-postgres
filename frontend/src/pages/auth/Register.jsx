@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Check from "../../middleware/auth/Check";
 
 export default function Register() {
@@ -43,7 +43,7 @@ export default function Register() {
         password: password.value,
       })
       .then((res) => {
-        navigate("/login");
+        window.location.reload();
       })
       .catch((err) => setIsError(err.response.data));
   };
@@ -155,12 +155,12 @@ export default function Register() {
 
         <p className="mt-10 text-center text-sm text-gray-500">
           Already sign up?
-          <a
-            href="/login"
+          <Link
+            to="/login"
             className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
           >
             Sign in now
-          </a>
+          </Link>
         </p>
       </div>
     </div>

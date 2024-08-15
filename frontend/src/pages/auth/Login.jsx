@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import Check from "../../middleware/auth/Check";
 
 export default function Login() {
@@ -29,7 +29,9 @@ export default function Login() {
         password: data.password,
       })
       .then((res) => {
-        navigate("/dashboard");
+        // Menyegarkan halaman setelah login berhasil
+
+        window.location.reload();
       })
       .catch((err) => setNotif(err.response.data));
   };
@@ -103,12 +105,12 @@ export default function Login() {
 
         <p className="mt-10 text-center text-sm text-gray-500">
           Not registered?
-          <a
-            href="/register"
+          <Link
+            to="/register"
             className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
           >
             Sign up now
-          </a>
+          </Link>
         </p>
       </div>
     </div>

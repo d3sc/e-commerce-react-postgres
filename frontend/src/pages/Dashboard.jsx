@@ -13,7 +13,7 @@ export default function Dashboard() {
   const [data, setData] = useState();
   const [likes, setLikes] = useState();
   useEffect(() => {
-    ApiCarts.get().then(({ data }) => setData(data[0].cart_item));
+    ApiCarts.get().then(({ data }) => setData(data));
     ApiLikes.get().then(({ data }) => setLikes(data));
   }, []);
 
@@ -28,7 +28,7 @@ export default function Dashboard() {
 
   return (
     <div className="mx-4">
-      {data.length != 0 ? (
+      {data[0].cart_item.length != 0 ? (
         <>
           <div className="flex justify-between items-center py-4">
             <h1 className="text-lg font-semibold">Current Cart</h1>
@@ -41,7 +41,7 @@ export default function Dashboard() {
           </div>
 
           <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-8">
-            {data?.map((item, index) => (
+            {data[0].cart_item?.map((item, index) => (
               <ItemCard key={index} item={item.product} />
             ))}
           </div>
