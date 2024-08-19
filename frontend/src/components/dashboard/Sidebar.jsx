@@ -23,10 +23,10 @@ export default function Sidebar() {
 
   return (
     <div className="w-16 md:w-56 fixed left-0 top-0 z-10 h-screen border-r pt-8 px-4 bg-white ">
-      <div className="mb-8">
+      <Link to={"/"} className="mb-8">
         <img src="/logo.svg" alt="logo" className="w-28 hidden md:flex" />
         <img src="/logo_mini.svg" alt="logo" className="w-8 flex md:hidden" />
-      </div>
+      </Link>
 
       <ul className="mt-6 space-y-6">
         {SIDEBAR_LINKS.map((link, index) => (

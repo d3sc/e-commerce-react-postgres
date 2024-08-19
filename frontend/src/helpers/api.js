@@ -14,11 +14,37 @@ const ApiLikes = {
 
     return data;
   },
+  deleteLike: async (itemId) => {
+    const data = await axios.delete("/likes", {
+      data: {
+        itemId,
+      },
+    });
+
+    return data;
+  },
 };
 
 const ApiCarts = {
   get: async () => {
     const data = await axios.get("/cart");
+
+    return data;
+  },
+  changeQty: async (itemId, qty) => {
+    const data = await axios.post("/qty", {
+      itemId,
+      qty,
+    });
+
+    return data;
+  },
+  deleteCart: async (itemId) => {
+    const data = await axios.delete("/cart-item", {
+      data: {
+        itemId,
+      },
+    });
 
     return data;
   },

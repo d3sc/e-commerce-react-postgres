@@ -18,13 +18,8 @@ export default function Likes() {
   const deleteHandle = (id) => {
     const updateLikes = data.filter((item) => item.id !== id);
     setData(updateLikes);
-    axios.delete("/likes", {
-      data: {
-        itemId: id,
-      },
-    });
+    ApiLikes.deleteLike(id);
   };
-  console.log(data);
 
   if (!data) return "Loading..";
   if (data.length == 0)

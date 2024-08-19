@@ -50,20 +50,26 @@ export default function Dashboard() {
         ""
       )}
 
-      <div className="flex justify-between items-center py-4">
-        <h1 className="text-lg font-semibold">Your Wishlist</h1>
-        <Link
-          to="/dashboard/likes"
-          className="text-sm underline text-indigo-600"
-        >
-          See all
-        </Link>
-      </div>
-      <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-8">
-        {likes?.map((item, index) => (
-          <ItemCard key={index} item={item.product} />
-        ))}
-      </div>
+      {likes.length != 0 ? (
+        <>
+          <div className="flex justify-between items-center py-4">
+            <h1 className="text-lg font-semibold">Your Wishlist</h1>
+            <Link
+              to="/dashboard/likes"
+              className="text-sm underline text-indigo-600"
+            >
+              See all
+            </Link>
+          </div>
+          <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-8">
+            {likes?.map((item, index) => (
+              <ItemCard key={index} item={item.product} />
+            ))}
+          </div>
+        </>
+      ) : (
+        ""
+      )}
     </div>
   );
 }

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { ApiCarts } from "../helpers/api";
-import axios from "axios";
 import { BsCartPlus } from "react-icons/bs";
 import EmptyData from "../components/dashboard/EmptyData";
 
@@ -39,10 +38,10 @@ export default function Cart() {
     setTotalPrice(calculateTotalPrice(updatedCartItems));
 
     // mengupdate data quantity ke database
-    axios.post("/qty", {
-      itemId: updatedCartItems[index].id,
-      qty: updatedCartItems[index].quantity,
-    });
+    ApiCarts.changeQty(
+      updatedCartItems[index].id,
+      updatedCartItems[index].quantity
+    );
   };
 
   function deleteHandle(id) {
@@ -50,11 +49,7 @@ export default function Cart() {
     setCartItems(updatedCartItems);
     setTotalPrice(calculateTotalPrice(updatedCartItems));
 
-    axios.delete("/cart-item", {
-      data: {
-        itemId: id,
-      },
-    });
+    ApiCarts.deleteCart(id);
   }
 
   if (!cartItems.length)

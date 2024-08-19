@@ -2,17 +2,17 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import Dashboard from "./pages/Dashboard";
-import { useContext } from "react";
-import { AuthContext } from "./context/AuthContext";
 import Logout from "./pages/auth/Logout";
 import Layout from "./components/dashboard/Layout";
 import Cart from "./pages/Cart";
 import Likes from "./pages/Likes";
+import Home from "./pages/Home";
 
 function App() {
-  const { cookie } = useContext(AuthContext);
   return (
     <Routes>
+      <Route index Component={Home} />
+
       <Route path="/dashboard" element={<Layout />}>
         <Route index Component={Dashboard} />
         <Route path="cart" element={<Cart />} />
