@@ -41,6 +41,7 @@ export default function Hero() {
     cssEase: "ease-in-out",
     pauseOnHover: false,
     pauseOnFocus: true,
+    arrows: false,
   };
   return (
     <div className="container">
