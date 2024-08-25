@@ -9,6 +9,7 @@ export default Option = {
     useEffect(() => {
       if (!cookie && !user) navigate("/login");
     }, [cookie, user]);
+    return user && cookie ? false : true;
   },
   isAuth: () => {
     const navigate = useNavigate();
@@ -16,5 +17,6 @@ export default Option = {
     useEffect(() => {
       if (cookie && user) navigate("/dashboard");
     }, [cookie, user]);
+    return user && cookie ? true : false;
   },
 };

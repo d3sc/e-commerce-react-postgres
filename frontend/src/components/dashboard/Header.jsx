@@ -7,7 +7,6 @@ import { AuthContext } from "../../context/AuthContext";
 export default function Header() {
   Check.isAuth();
   const { user } = useContext(AuthContext);
-  // console.log(user);
   return (
     <div className="flex justify-between items-center p-4 bg-[#eaeaea]">
       <div className="">

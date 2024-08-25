@@ -5,8 +5,8 @@ export default function ProductCard({ image, text, price }) {
     <div>
       <div className="rounded-lg overflow-hidden grid gap-1">
         <img src={image} alt="image" />
-        <p className="font-bold">{text}</p>
-        <p className="font-bold">{price}</p>
+        <p className="font-bold dark:text-white">{text}</p>
+        <p className="font-bold dark:text-white">{price}</p>
       </div>
     </div>
   );

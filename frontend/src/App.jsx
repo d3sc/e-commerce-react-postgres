@@ -7,6 +7,7 @@ import Layout from "./components/dashboard/Layout";
 import Cart from "./pages/Cart";
 import Likes from "./pages/Likes";
 import Home from "./pages/Home";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (
@@ -23,6 +24,8 @@ function App() {
       <Route path="/register" Component={Register} />
       <Route path="/login" Component={Login} />
       <Route path="/logout" Component={Logout} />
+
+      <Route path="*" Component={NotFound} />
     </Routes>
   );
 }

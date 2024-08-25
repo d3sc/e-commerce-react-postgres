@@ -6,14 +6,17 @@ import { IoIosHeart, IoIosHeartEmpty } from "react-icons/io";
 import { FaHeartCirclePlus } from "react-icons/fa6";
 import axios from "axios";
 import EmptyData from "../components/dashboard/EmptyData";
+import Check from "../middleware/auth/Check";
 
 export default function Likes() {
+  const isGuest = Check.isGuest();
   const [data, setData] = useState();
   useEffect(() => {
-    ApiLikes.get()
-      .then(({ data }) => setData(data))
-      .catch((err) => console.log(err));
-  }, []);
+    if (!isGuest)
+      ApiLikes.get()
+        .then(({ data }) => setData(data))
+        .catch((err) => console.log(err));
+  }, [isGuest]);
 
   const deleteHandle = (id) => {
     const updateLikes = data.filter((item) => item.id !== id);

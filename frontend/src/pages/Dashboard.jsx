@@ -8,14 +8,16 @@ import { Link } from "react-router-dom";
 import EmptyData from "../components/dashboard/EmptyData";
 
 export default function Dashboard() {
-  Check.isGuest();
+  const isGuest = Check.isGuest();
 
   const [data, setData] = useState();
   const [likes, setLikes] = useState();
   useEffect(() => {
-    ApiCarts.get().then(({ data }) => setData(data));
-    ApiLikes.get().then(({ data }) => setLikes(data));
-  }, []);
+    if (!isGuest) {
+      ApiCarts.get().then(({ data }) => setData(data));
+      ApiLikes.get().then(({ data }) => setLikes(data));
+    }
+  }, [isGuest]);
 
   if (!data || !likes) return "Loading..";
   if (data.length == 0 && likes.length == 0)

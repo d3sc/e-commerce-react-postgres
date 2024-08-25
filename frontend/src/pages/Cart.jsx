@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { ApiCarts } from "../helpers/api";
 import { BsCartPlus } from "react-icons/bs";
 import EmptyData from "../components/dashboard/EmptyData";
+import Check from "../middleware/auth/Check";
 
 function calculateTotalPrice(cartItems) {
   return cartItems
@@ -10,22 +11,25 @@ function calculateTotalPrice(cartItems) {
 }
 
 export default function Cart() {
+  const isGuest = Check.isGuest();
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
-    ApiCarts.get().then(({ data }) => {
-      // membuat inisial cartItem agar bisa diubah nilainya jika dimasukkan ke useState, mudah nya seperti duplikat dari data asli
-      const initialCartItems = data[0].cart_item.map((item) => ({
-        ...item,
-        quantity: item.quantity, // Simpan initial quantity
-      }));
-      // memasang data duplikasi itemCard dari hasil data yang sudah GET dari api
-      setCartItems(initialCartItems);
-      // memasang data total price dari duplikasi hasil data yang sudah di GET dari api
-      setTotalPrice(calculateTotalPrice(initialCartItems));
-    });
-  }, []);
+    if (!isGuest) {
+      ApiCarts.get().then(({ data }) => {
+        // membuat inisial cartItem agar bisa diubah nilainya jika dimasukkan ke useState, mudah nya seperti duplikat dari data asli
+        const initialCartItems = data[0].cart_item.map((item) => ({
+          ...item,
+          quantity: item.quantity, // Simpan initial quantity
+        }));
+        // memasang data duplikasi itemCard dari hasil data yang sudah GET dari api
+        setCartItems(initialCartItems);
+        // memasang data total price dari duplikasi hasil data yang sudah di GET dari api
+        setTotalPrice(calculateTotalPrice(initialCartItems));
+      });
+    }
+  }, [isGuest]);
 
   const updateQuantity = (index, newQuantity) => {
     const updatedCartItems = cartItems;

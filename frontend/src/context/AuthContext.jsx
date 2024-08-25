@@ -14,7 +14,7 @@ export const AuthContextProvider = ({ children }) => {
   const cookie = Cookies.get("token");
 
   return (
-    <AuthContext.Provider value={{ user, cookie }}>
+    <AuthContext.Provider value={{ user, cookie, setUser }}>
       {children}
     </AuthContext.Provider>
   );

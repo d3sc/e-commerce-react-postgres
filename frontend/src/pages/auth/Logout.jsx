@@ -1,14 +1,20 @@
 import axios from "axios";
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import Check from "../../middleware/auth/Check";
+import { AuthContext } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export default function Logout() {
-  Check.isGuest();
-  axios.get("/logout").then(({ data }) => {
-    setTimeout(() => {
-      window.location.reload();
-    }, 500);
-    // navigate(`/login?message=${encodeURIComponent(data)}`);
-  });
+  const { setUser } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const isGuest = Check.isGuest();
+  useEffect(() => {
+    if (!isGuest) {
+      setUser(null);
+      axios.get("/logout").then(({ data }) => {
+        navigate(`/login?message=${encodeURIComponent(data)}`);
+      });
+    }
+  }, [isGuest]);
   return <div>redirect..</div>;
 }

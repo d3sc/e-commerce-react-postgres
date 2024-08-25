@@ -126,7 +126,12 @@ export default function Category() {
       </div>
       <div className="flex justify-start sm:justify-center items-center py-16 flex-wrap gap-16">
         {subCategoryData.map((data, index) => (
-          <SubCategory icon={data.icon} text1={data.text1} text2={data.text2} />
+          <SubCategory
+            key={index}
+            icon={data.icon}
+            text1={data.text1}
+            text2={data.text2}
+          />
         ))}
       </div>
     </div>

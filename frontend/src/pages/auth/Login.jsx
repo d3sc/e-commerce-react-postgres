@@ -1,10 +1,12 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import Check from "../../middleware/auth/Check";
+import { AuthContext } from "../../context/AuthContext";
 
 export default function Login() {
   Check.isAuth();
+  const { setUser } = useContext(AuthContext);
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const pageParams = searchParams.get("message");
@@ -29,9 +31,13 @@ export default function Login() {
         password: data.password,
       })
       .then((res) => {
-        // Menyegarkan halaman setelah login berhasil
-
-        window.location.reload();
+        axios
+          .get("/profile")
+          .then(({ data }) => {
+            setUser(data);
+            navigate("/dashboard");
+          })
+          .catch((err) => setNotif(err.response.data));
       })
       .catch((err) => setNotif(err.response.data));
   };
