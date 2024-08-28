@@ -5,8 +5,8 @@ const prisma = new PrismaClient();
 export async function getLikes(req, res) {
   const { token } = req.cookies;
 
-  try {
-    jwt.verify(token, process.env.JWT_SECRET, {}, async (err, user) => {
+  jwt.verify(token, process.env.JWT_SECRET, {}, async (err, user) => {
+    try {
       if (err) throw err;
 
       const checkUser = await prisma.user.findFirst({
@@ -16,7 +16,7 @@ export async function getLikes(req, res) {
         },
       });
 
-      if (!checkUser) throw new Error("Error, You're not signed!");
+      if (!checkUser) throw "Error, You're not signed!";
 
       const data = await prisma.likes.findMany({
         where: {
@@ -28,18 +28,18 @@ export async function getLikes(req, res) {
       });
 
       res.status(200).json(data);
-    });
-  } catch (error) {
-    res.status(400).json({ "ada error": error });
-  }
+    } catch (error) {
+      res.status(400).json({ "ada error": error });
+    }
+  });
 }
 
-export async function deleteLikes(req, res) {
+export async function storeLikes(req, res) {
   const { token } = req.cookies;
-  const { itemId } = req.body;
+  const { productId, userId } = req.body;
 
-  try {
-    jwt.verify(token, process.env.JWT_SECRET, {}, async (err, user) => {
+  jwt.verify(token, process.env.JWT_SECRET, {}, async (err, user) => {
+    try {
       if (err) throw err;
 
       const checkUser = await prisma.user.findFirst({
@@ -49,7 +49,49 @@ export async function deleteLikes(req, res) {
         },
       });
 
-      if (!checkUser) throw new Error("Error, You're not signed!");
+      if (!checkUser) throw "Error, You're not signed!";
+
+      const checkProduct = await prisma.likes.findFirst({
+        where: {
+          productId,
+          userId,
+        },
+      });
+
+      if (checkProduct) throw "Error, you've put this item on your wishlish";
+
+      const data = await prisma.likes.create({
+        data: {
+          productId,
+          userId,
+        },
+      });
+
+      res
+        .status(200)
+        .json({ success: "product has been store on your wishlist" });
+    } catch (error) {
+      res.json({ error });
+    }
+  });
+}
+
+export async function deleteLikes(req, res) {
+  const { token } = req.cookies;
+  const { itemId } = req.body;
+
+  jwt.verify(token, process.env.JWT_SECRET, {}, async (err, user) => {
+    try {
+      if (err) throw err;
+
+      const checkUser = await prisma.user.findFirst({
+        where: {
+          name: user.name,
+          id: user.id,
+        },
+      });
+
+      if (!checkUser) throw "Error, You're not signed!";
 
       const data = await prisma.likes.delete({
         where: {
@@ -58,8 +100,8 @@ export async function deleteLikes(req, res) {
       });
 
       res.status(200).json(data);
-    });
-  } catch (error) {
-    res.status(400).json({ "ada error": error });
-  }
+    } catch (error) {
+      res.status(400).json({ "ada error": error });
+    }
+  });
 }

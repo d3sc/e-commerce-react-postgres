@@ -14,6 +14,13 @@ const ApiLikes = {
 
     return data;
   },
+  store: async (productId, userId) => {
+    const { data } = await axios.post("/likes", {
+      productId,
+      userId,
+    });
+    return data?.error ? data.error : data.success;
+  },
   deleteLike: async (itemId) => {
     const data = await axios.delete("/likes", {
       data: {

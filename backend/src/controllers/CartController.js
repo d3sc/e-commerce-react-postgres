@@ -5,8 +5,8 @@ const prisma = new PrismaClient();
 export async function getCart(req, res) {
   const { token } = req.cookies;
 
-  try {
-    jwt.verify(token, process.env.JWT_SECRET, {}, async (err, user) => {
+  jwt.verify(token, process.env.JWT_SECRET, {}, async (err, user) => {
+    try {
       if (err) throw err;
 
       const checkUser = await prisma.user.findFirst({
@@ -16,7 +16,7 @@ export async function getCart(req, res) {
         },
       });
 
-      if (!checkUser) throw new Error("Error, You're not signed!");
+      if (!checkUser) throw "Error, You're not signed!";
 
       const data = await prisma.cart.findMany({
         where: {
@@ -34,18 +34,18 @@ export async function getCart(req, res) {
       });
 
       res.status(200).json(data);
-    });
-  } catch (error) {
-    res.status(400).json({ "ada error": error });
-  }
+    } catch (error) {
+      res.status(400).json({ "ada error": error });
+    }
+  });
 }
 
 export async function changeQty(req, res) {
   const { token } = req.cookies;
   const { itemId, qty } = req.body;
 
-  try {
-    jwt.verify(token, process.env.JWT_SECRET, {}, async (err, user) => {
+  jwt.verify(token, process.env.JWT_SECRET, {}, async (err, user) => {
+    try {
       if (err) throw err;
 
       const checkUser = await prisma.user.findFirst({
@@ -55,7 +55,7 @@ export async function changeQty(req, res) {
         },
       });
 
-      if (!checkUser) throw new Error("Error, You're not signed!");
+      if (!checkUser) throw "Error, You're not signed!";
 
       const data = await prisma.cart_item.update({
         where: {
@@ -67,18 +67,18 @@ export async function changeQty(req, res) {
       });
 
       res.status(200).json(data);
-    });
-  } catch (error) {
-    res.status(400).json({ "ada error": error });
-  }
+    } catch (error) {
+      res.status(400).json({ "ada error": error });
+    }
+  });
 }
 
 export async function deleteCartItem(req, res) {
   const { token } = req.cookies;
   const { itemId } = req.body;
 
-  try {
-    jwt.verify(token, process.env.JWT_SECRET, {}, async (err, user) => {
+  jwt.verify(token, process.env.JWT_SECRET, {}, async (err, user) => {
+    try {
       if (err) throw err;
 
       const checkUser = await prisma.user.findFirst({
@@ -88,7 +88,7 @@ export async function deleteCartItem(req, res) {
         },
       });
 
-      if (!checkUser) throw new Error("Error, You're not signed!");
+      if (!checkUser) throw "Error, You're not signed!";
 
       const data = await prisma.cart_item.delete({
         where: {
@@ -97,8 +97,8 @@ export async function deleteCartItem(req, res) {
       });
 
       res.status(200).json(data);
-    });
-  } catch (error) {
-    res.status(400).json({ "ada error": error });
-  }
+    } catch (error) {
+      res.status(400).json({ "ada error": error });
+    }
+  });
 }

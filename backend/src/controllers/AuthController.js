@@ -3,17 +3,16 @@ import jwt from "jsonwebtoken";
 const prisma = new PrismaClient();
 
 export async function register(req, res) {
+  const { name, email, password } = req.body;
   try {
-    const { name, email, password } = req.body;
-    if (!name || !email || !password)
-      throw new Error("Input field is required!");
+    if (!name || !email || !password) throw "Input field is required!";
 
     const existEmail = await prisma.user.findFirst({
       where: {
         email,
       },
     });
-    if (existEmail) throw new Error("Email is already taken!");
+    if (existEmail) throw "Email is already taken!";
 
     const user = await prisma.user.create({
       data: {
@@ -34,11 +33,11 @@ export async function login(req, res) {
 
     const user = await prisma.user.findFirst({ where: { email: email } });
 
-    if (!user) throw new Error("Login Error, code unf01");
+    if (!user) throw "Login Error, code unf01";
 
     const matchPassword = user.password == password;
 
-    if (!matchPassword) throw new Error("Login Error, code pw01");
+    if (!matchPassword) throw "Login Error, code pw01";
 
     jwt.sign(
       { id: user.id, email, name: user.name },
@@ -61,7 +60,7 @@ export async function logout(req, res) {
     res.clearCookie("token");
     res.json("Logout Success");
   } else {
-    res.json("Error, You're not signed!");
+    res.json({ error: "Error, You're not signed!" });
   }
 }
 
@@ -76,5 +75,5 @@ export async function getProfile(req, res) {
 
       res.json(user);
     });
-  else res.json("Error, You're not signed!");
+  else res.json({ error: "Error, You're not signed!" });
 }
