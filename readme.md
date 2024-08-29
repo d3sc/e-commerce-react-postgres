@@ -1,6 +1,6 @@
 **E-commerce React JS PostgreSQL**
 
-Proyek ini adalah sebuah aplikasi e-commerce yang dibangun menggunakan teknologi React JS, TailwindCSS, Prisma ORM, dan PostgreSQL. Aplikasi ini menawarkan berbagai fitur yang membuat pengalaman belanja online menjadi lebih mudah dan menyenangkan.
+Proyek ini adalah sebuah aplikasi e-commerce yang dibangun menggunakan teknologi React JS, TailwindCSS,Express JS, Prisma ORM, dan PostgreSQL. Aplikasi ini menawarkan berbagai fitur yang membuat pengalaman belanja online menjadi lebih mudah dan menyenangkan.
 
 **Fitur Utama**
 
