@@ -23,7 +23,7 @@ export default function ProductCard({ productId, image, text, price }) {
             onClick={submitCart}
             className="bg-primary text-white rounded-full px-6 py-4 absolute left-1/2 top-1/3 transition duration-300 ease-in-out translate-x-96 group-hover:-translate-x-14"
           >
-            add to cart
+            add wishlist
           </button>
         </div>
         <p className="font-bold dark:text-white">{text}</p>

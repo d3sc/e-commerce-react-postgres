@@ -84,10 +84,9 @@ export default function Likes() {
                   onClick={() => addToCart(item.product.id)}
                   className="py-2 px-4 bg-indigo-500 hover:bg-indigo-700 text-white rounded-lg transition-all duration-300 "
                 >
-                  Put to Cart
+                  Add to Cart
                 </button>
                 <input
-                  // ref={inputRef}
                   onChange={(e) => setQuantity(e.target.value)}
                   type="number"
                   className="w-16 pl-4"
