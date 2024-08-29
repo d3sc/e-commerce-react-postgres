@@ -26,6 +26,7 @@ Proyek ini adalah sebuah aplikasi e-commerce yang dibangun menggunakan teknologi
 
 - React JS untuk frontend
 - TailwindCSS untuk styling
+- Express JS untuk backend
 - Prisma ORM untuk mengelola basis data
 - PostgreSQL untuk basis data
 
