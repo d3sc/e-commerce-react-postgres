@@ -1,5 +1,4 @@
-import React from "react";
-import { ApiLikes } from "../helpers/api";
+import { ApiCarts, ApiLikes } from "../helpers/api";
 import { useEffect } from "react";
 import { useState } from "react";
 import { IoIosHeart, IoIosHeartEmpty } from "react-icons/io";
@@ -10,6 +9,7 @@ import Check from "../middleware/auth/Check";
 
 export default function Likes() {
   const isGuest = Check.isGuest();
+  const [quantity, setQuantity] = useState(1);
   const [data, setData] = useState();
   useEffect(() => {
     if (!isGuest)
@@ -24,14 +24,27 @@ export default function Likes() {
     ApiLikes.deleteLike(id);
   };
 
+  const addToCart = async (productId) => {
+    if (quantity <= 0 || !quantity) return alert("quantity invalid!");
+
+    const data = await ApiCarts.getUserCart();
+    if (data?.error) return alert(data.error);
+    const cartId = data.id;
+
+    const data2 = await ApiCarts.store(parseInt(quantity), productId, cartId);
+    alert(data2);
+  };
+
   if (!data) return "Loading..";
   if (data.length == 0)
     return (
       <EmptyData
         message={"you dont have any wishlist"}
         icon={FaHeartCirclePlus}
+        link={"/"}
       />
     );
+
   return (
     <div className="mx-4">
       <h1 className="text-lg font-semibold py-4">Your Wishlist</h1>
@@ -60,8 +73,26 @@ export default function Likes() {
               </div>
               <div className="w-full flex justify-end items-start p-6">
                 <button onClick={() => deleteHandle(item.id)}>
-                  <IoIosHeart size={30} className="cursor-pointer" />
+                  <IoIosHeart
+                    size={30}
+                    className="cursor-pointer hover:scale-110 transition-all duration-200"
+                  />
                 </button>
+              </div>
+              <div className="flex justify-between items-center">
+                <button
+                  onClick={() => addToCart(item.product.id)}
+                  className="py-2 px-4 bg-indigo-500 hover:bg-indigo-700 text-white rounded-lg transition-all duration-300 "
+                >
+                  Put to Cart
+                </button>
+                <input
+                  // ref={inputRef}
+                  onChange={(e) => setQuantity(e.target.value)}
+                  type="number"
+                  className="w-16 pl-4"
+                  defaultValue={1}
+                />
               </div>
             </div>
           </div>

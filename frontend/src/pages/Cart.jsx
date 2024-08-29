@@ -61,6 +61,7 @@ export default function Cart() {
       <EmptyData
         message={"it seems like you didnt have any item in cart"}
         icon={BsCartPlus}
+        link={"/dashboard/likes"}
       />
     );
 
@@ -128,7 +129,11 @@ export default function Cart() {
                     </td>
                     <td className="whitespace-nowrap px-4 py-2">
                       <button
-                        onClick={() => deleteHandle(item.id)}
+                        onClick={() =>
+                          confirm("apakah anda yakin?")
+                            ? deleteHandle(item.id)
+                            : ""
+                        }
                         className="inline-block rounded bg-red-500 px-4 py-2 text-xs font-medium text-white hover:bg-red-600"
                       >
                         delete

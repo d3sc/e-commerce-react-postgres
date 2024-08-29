@@ -8,18 +8,25 @@ import {
   LuLogOut,
   LuHeart,
 } from "react-icons/lu";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Sidebar() {
   const [activeLink, setActiveLink] = useState(0);
+  const SIDEBAR_LINKS = [
+    { id: 1, path: "/dashboard", name: "Dashboard", icon: LuBox },
+    { id: 2, path: "/dashboard/cart", name: "Cart", icon: LuShoppingCart },
+    { id: 3, path: "/dashboard/likes", name: "Likes", icon: LuHeart },
+  ];
+
+  useEffect(() => {
+    const id =
+      SIDEBAR_LINKS.find((item) => item.path == window.location.pathname)?.id -
+      1;
+    setActiveLink(id);
+  }, [activeLink, window.location.pathname]);
   const handleLinkClick = (index) => {
     setActiveLink(index);
   };
-  const SIDEBAR_LINKS = [
-    { id: 1, path: "/dashboard/", name: "Dashboard", icon: LuBox },
-    { id: 1, path: "/dashboard/cart", name: "Cart", icon: LuShoppingCart },
-    { id: 1, path: "/dashboard/likes", name: "Likes", icon: LuHeart },
-  ];
 
   return (
     <div className="w-16 md:w-56 fixed left-0 top-0 z-10 h-screen border-r pt-8 px-4 bg-white ">

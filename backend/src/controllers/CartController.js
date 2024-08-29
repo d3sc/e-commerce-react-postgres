@@ -35,7 +35,80 @@ export async function getCart(req, res) {
 
       res.status(200).json(data);
     } catch (error) {
-      res.status(400).json({ "ada error": error });
+      res.status(400).json({ error });
+    }
+  });
+}
+
+export async function getUserCart(req, res) {
+  const { token } = req.cookies;
+
+  jwt.verify(token, process.env.JWT_SECRET, {}, async (err, user) => {
+    try {
+      if (err) throw err;
+
+      const checkUser = await prisma.user.findFirst({
+        where: {
+          name: user.name,
+          id: user.id,
+        },
+      });
+
+      if (!checkUser) throw "Error, You're not signed!";
+
+      const data = await prisma.cart.findFirst({
+        where: {
+          userId: user.id,
+        },
+        select: {
+          id: true,
+        },
+      });
+
+      res.status(200).json(data);
+    } catch (error) {
+      res.status(400).json({ error });
+    }
+  });
+}
+
+export async function storeCart(req, res) {
+  const { token } = req.cookies;
+  const { quantity, productId, cartId } = req.body;
+
+  jwt.verify(token, process.env.JWT_SECRET, {}, async (err, user) => {
+    try {
+      if (err) throw err;
+
+      const checkUser = await prisma.user.findFirst({
+        where: {
+          name: user.name,
+          id: user.id,
+        },
+      });
+
+      if (!checkUser) throw "Error, You're not signed!";
+
+      const checkProduct = await prisma.cart_item.findFirst({
+        where: {
+          productId,
+          cartId,
+        },
+      });
+
+      if (checkProduct) throw "Error, you've put this item on your cart";
+
+      await prisma.cart_item.create({
+        data: {
+          quantity,
+          productId,
+          cartId,
+        },
+      });
+
+      res.status(200).json({ success: "product has been store on your cart" });
+    } catch (error) {
+      res.json({ error });
     }
   });
 }
@@ -68,7 +141,7 @@ export async function changeQty(req, res) {
 
       res.status(200).json(data);
     } catch (error) {
-      res.status(400).json({ "ada error": error });
+      res.status(400).json({ error });
     }
   });
 }
@@ -98,7 +171,7 @@ export async function deleteCartItem(req, res) {
 
       res.status(200).json(data);
     } catch (error) {
-      res.status(400).json({ "ada error": error });
+      res.status(400).json({ error });
     }
   });
 }

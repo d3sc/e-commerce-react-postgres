@@ -23,6 +23,8 @@ import {
   changeQty,
   deleteCartItem,
   getCart,
+  getUserCart,
+  storeCart,
 } from "../controllers/CartController.js";
 
 // auth route
@@ -45,6 +47,8 @@ router.delete("/likes", deleteLikes);
 
 // cart route
 router.get("/cart", getCart);
+router.post("/cart/user", getUserCart);
+router.post("/cart", storeCart);
 router.delete("/cart-item", deleteCartItem);
 
 // quantity handle route

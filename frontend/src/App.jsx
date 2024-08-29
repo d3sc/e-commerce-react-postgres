@@ -14,11 +14,35 @@ function App() {
     <Routes>
       <Route index Component={Home} />
 
-      <Route path="/dashboard" element={<Layout />}>
+      {/* <Route path="/dashboard" element={<Layout />}>
         <Route index Component={Dashboard} />
         <Route path="cart" element={<Cart />} />
         <Route path="likes" element={<Likes />} />
-      </Route>
+      </Route> */}
+      <Route
+        path="/dashboard"
+        element={
+          <Layout>
+            <Dashboard />
+          </Layout>
+        }
+      />
+      <Route
+        path="/dashboard/cart"
+        element={
+          <Layout>
+            <Cart />
+          </Layout>
+        }
+      />
+      <Route
+        path="/dashboard/likes"
+        element={
+          <Layout>
+            <Likes />
+          </Layout>
+        }
+      />
 
       {/* auth route */}
       <Route path="/register" Component={Register} />

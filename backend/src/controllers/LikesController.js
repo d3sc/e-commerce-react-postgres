@@ -29,7 +29,7 @@ export async function getLikes(req, res) {
 
       res.status(200).json(data);
     } catch (error) {
-      res.status(400).json({ "ada error": error });
+      res.status(400).json({ error });
     }
   });
 }
@@ -58,9 +58,9 @@ export async function storeLikes(req, res) {
         },
       });
 
-      if (checkProduct) throw "Error, you've put this item on your wishlish";
+      if (checkProduct) throw "Error, you've put this item on your wishlist";
 
-      const data = await prisma.likes.create({
+      await prisma.likes.create({
         data: {
           productId,
           userId,
@@ -101,7 +101,7 @@ export async function deleteLikes(req, res) {
 
       res.status(200).json(data);
     } catch (error) {
-      res.status(400).json({ "ada error": error });
+      res.status(400).json({ error });
     }
   });
 }

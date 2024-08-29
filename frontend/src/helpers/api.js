@@ -38,6 +38,10 @@ const ApiCarts = {
 
     return data;
   },
+  getUserCart: async () => {
+    const { data } = await axios.post("/cart/user");
+    return data;
+  },
   changeQty: async (itemId, qty) => {
     const data = await axios.post("/qty", {
       itemId,
@@ -45,6 +49,14 @@ const ApiCarts = {
     });
 
     return data;
+  },
+  store: async (quantity, productId, cartId) => {
+    const { data } = await axios.post("/cart", {
+      quantity,
+      productId,
+      cartId,
+    });
+    return data?.error ? data.error : data.success;
   },
   deleteCart: async (itemId) => {
     const data = await axios.delete("/cart-item", {
