@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import Check from "../../middleware/auth/Check";
 import { AuthContext } from "../../context/AuthContext";
+import { IoIosArrowBack } from "react-icons/io";
 
 export default function Login() {
   Check.isAuth();
@@ -30,7 +31,7 @@ export default function Login() {
         email: data.email,
         password: data.password,
       })
-      .then((res) => {
+      .then(() => {
         axios
           .get("/profile")
           .then(({ data }) => {
@@ -43,6 +44,9 @@ export default function Login() {
   };
   return (
     <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+      <Link to={"/"}>
+        <IoIosArrowBack size={30} className="opacity-70" />
+      </Link>
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <img
           className="mx-auto h-10 w-auto"

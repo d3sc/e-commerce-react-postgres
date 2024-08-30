@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Check from "../../middleware/auth/Check";
+import { IoIosArrowBack } from "react-icons/io";
 
 export default function Register() {
   Check.isAuth();
@@ -42,13 +43,16 @@ export default function Register() {
         email: email.value,
         password: password.value,
       })
-      .then((res) => {
-        window.location.reload();
+      .then(({ data }) => {
+        navigate(`/login?message=${encodeURIComponent(data)}`);
       })
       .catch((err) => setIsError(err.response.data));
   };
   return (
     <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+      <Link to={"/login"}>
+        <IoIosArrowBack size={30} className="opacity-70" />
+      </Link>
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <img
           className="mx-auto h-10 w-auto"

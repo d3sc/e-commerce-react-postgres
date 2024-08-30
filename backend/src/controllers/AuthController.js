@@ -14,14 +14,14 @@ export async function register(req, res) {
     });
     if (existEmail) throw "Email is already taken!";
 
-    const user = await prisma.user.create({
+    await prisma.user.create({
       data: {
         name,
         email,
         password,
       },
     });
-    return res.status(201).json(user);
+    return res.status(201).json("account has been created!");
   } catch (error) {
     return res.status(400).json(error.message);
   }

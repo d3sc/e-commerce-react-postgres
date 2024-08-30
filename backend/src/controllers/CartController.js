@@ -18,7 +18,7 @@ export async function getCart(req, res) {
 
       if (!checkUser) throw "Error, You're not signed!";
 
-      const data = await prisma.cart.findFirst({
+      let data = await prisma.cart.findFirst({
         where: {
           userId: user.id,
         },
@@ -33,6 +33,22 @@ export async function getCart(req, res) {
         },
       });
 
+      if (!data) {
+        data = await prisma.cart.create({
+          data: {
+            userId: user.id,
+          },
+          include: {
+            cart_item: {
+              select: {
+                id: true,
+                quantity: true,
+                product: true,
+              },
+            },
+          },
+        });
+      }
       res.status(200).json(data);
     } catch (error) {
       res.status(400).json({ error });
