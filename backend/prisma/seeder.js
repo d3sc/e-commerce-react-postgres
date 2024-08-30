@@ -10,7 +10,7 @@ const createSeeder = async () => {
     data: {
       name: faker.person.firstName(),
       email: faker.internet.email(),
-      password: faker.internet.password(),
+      password: "password",
     },
   });
   const admin = await prisma.user.create({

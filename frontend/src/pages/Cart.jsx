@@ -19,7 +19,7 @@ export default function Cart() {
     if (!isGuest) {
       ApiCarts.get().then(({ data }) => {
         // membuat inisial cartItem agar bisa diubah nilainya jika dimasukkan ke useState, mudah nya seperti duplikat dari data asli
-        const initialCartItems = data[0].cart_item.map((item) => ({
+        const initialCartItems = data.cart_item.map((item) => ({
           ...item,
           quantity: item.quantity, // Simpan initial quantity
         }));

@@ -18,7 +18,7 @@ export async function getCart(req, res) {
 
       if (!checkUser) throw "Error, You're not signed!";
 
-      const data = await prisma.cart.findMany({
+      const data = await prisma.cart.findFirst({
         where: {
           userId: user.id,
         },
@@ -74,7 +74,8 @@ export async function getUserCart(req, res) {
 
 export async function storeCart(req, res) {
   const { token } = req.cookies;
-  const { quantity, productId, cartId } = req.body;
+  const { quantity, productId } = req.body;
+  let { cartId } = req.body;
 
   jwt.verify(token, process.env.JWT_SECRET, {}, async (err, user) => {
     try {
@@ -88,6 +89,22 @@ export async function storeCart(req, res) {
       });
 
       if (!checkUser) throw "Error, You're not signed!";
+
+      if (!cartId || cartId == null) {
+        cartId = await prisma.cart.create({
+          data: {
+            userId: user.id,
+          },
+          include: {
+            cart_item: {
+              select: {
+                cartId: true,
+              },
+            },
+          },
+        });
+        cartId = cartId.id;
+      }
 
       const checkProduct = await prisma.cart_item.findFirst({
         where: {

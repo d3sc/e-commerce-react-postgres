@@ -29,7 +29,7 @@ export default function Likes() {
 
     const data = await ApiCarts.getUserCart();
     if (data?.error) return alert(data.error);
-    const cartId = data.id;
+    const cartId = data?.id ? data.id : undefined;
 
     const data2 = await ApiCarts.store(parseInt(quantity), productId, cartId);
     alert(data2);

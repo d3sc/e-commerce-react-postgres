@@ -40,6 +40,7 @@ const ApiCarts = {
   },
   getUserCart: async () => {
     const { data } = await axios.post("/cart/user");
+    // console.log(data);
     return data;
   },
   changeQty: async (itemId, qty) => {
