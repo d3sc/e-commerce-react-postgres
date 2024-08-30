@@ -8,14 +8,49 @@ import {
   LuLogOut,
   LuHeart,
 } from "react-icons/lu";
-import { useState, useEffect } from "react";
+import { FaBoxOpen } from "react-icons/fa";
+import { useState, useEffect, useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
 export default function Sidebar() {
   const [activeLink, setActiveLink] = useState(0);
+  const { user } = useContext(AuthContext);
   const SIDEBAR_LINKS = [
-    { id: 1, path: "/dashboard", name: "Dashboard", icon: LuBox },
-    { id: 2, path: "/dashboard/cart", name: "Cart", icon: LuShoppingCart },
-    { id: 3, path: "/dashboard/likes", name: "Likes", icon: LuHeart },
+    {
+      id: 1,
+      path: "/dashboard",
+      name: "Dashboard",
+      icon: LuBox,
+      strict: false,
+    },
+    {
+      id: 2,
+      path: "/dashboard/cart",
+      name: "Cart",
+      icon: LuShoppingCart,
+      strict: false,
+    },
+    {
+      id: 3,
+      path: "/dashboard/likes",
+      name: "Likes",
+      icon: LuHeart,
+      strict: false,
+    },
+    {
+      id: 4,
+      path: "/dashboard/products",
+      name: "Products",
+      icon: FaBoxOpen,
+      strict: true,
+    },
+    {
+      id: 5,
+      path: "/dashboard/users",
+      name: "Users",
+      icon: LuUser,
+      strict: true,
+    },
   ];
 
   useEffect(() => {
@@ -41,7 +76,7 @@ export default function Sidebar() {
             key={index}
             className={`flex justify-center font-medium rounded-md hover:bg-gray-100 hover:text-indigo-500 cursor-pointer ${
               activeLink === index ? "bg-indigo-100 text-indigo-500" : ""
-            }`}
+            } ${user?.name !== "admin" && link.strict ? "hidden" : ""}`}
           >
             <Link
               to={link.path}

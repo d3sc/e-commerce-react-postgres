@@ -5,7 +5,7 @@ import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 
 export default function Header() {
-  Check.isAuth();
+  Check.isGuest();
   const { user } = useContext(AuthContext);
   return (
     <div className="flex justify-between items-center p-4 bg-[#eaeaea]">

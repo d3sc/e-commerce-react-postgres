@@ -3,7 +3,7 @@ import Check from "../../middleware/auth/Check";
 import { AuthContext } from "../../context/AuthContext";
 import NotFound from "../NotFound";
 
-export default function AllProducts() {
+export default function AllUsers() {
   const isGuest = Check.isGuest();
   const { user } = useContext(AuthContext);
   if (isGuest || user?.name != "admin")
@@ -11,7 +11,7 @@ export default function AllProducts() {
   if (!user) return "Loading..";
   return (
     <div>
-      <h1>Products manager page</h1>
+      <h1>Users manager page</h1>
       {user.name}
     </div>
   );

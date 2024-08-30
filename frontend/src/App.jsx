@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import Dashboard from "./pages/Dashboard";
@@ -8,17 +8,13 @@ import Cart from "./pages/Cart";
 import Likes from "./pages/Likes";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
+import AllProducts from "./pages/products/AllProducts";
+import AllUsers from "./pages/users/AllUsers";
 
 function App() {
   return (
     <Routes>
       <Route index Component={Home} />
-
-      {/* <Route path="/dashboard" element={<Layout />}>
-        <Route index Component={Dashboard} />
-        <Route path="cart" element={<Cart />} />
-        <Route path="likes" element={<Likes />} />
-      </Route> */}
       <Route
         path="/dashboard"
         element={
@@ -40,6 +36,24 @@ function App() {
         element={
           <Layout>
             <Likes />
+          </Layout>
+        }
+      />
+
+      {/* admin base */}
+      <Route
+        path="/dashboard/products"
+        element={
+          <Layout>
+            <AllProducts />
+          </Layout>
+        }
+      />
+      <Route
+        path="/dashboard/users"
+        element={
+          <Layout>
+            <AllUsers />
           </Layout>
         }
       />

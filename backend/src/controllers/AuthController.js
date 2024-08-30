@@ -13,6 +13,7 @@ export async function register(req, res) {
       },
     });
     if (existEmail) throw "Email is already taken!";
+    if (name === "admin") throw "Name is cant be admin!";
 
     await prisma.user.create({
       data: {
@@ -23,7 +24,7 @@ export async function register(req, res) {
     });
     return res.status(201).json("account has been created!");
   } catch (error) {
-    return res.status(400).json(error.message);
+    return res.status(400).json(error);
   }
 }
 
@@ -49,7 +50,7 @@ export async function login(req, res) {
       }
     );
   } catch (error) {
-    return res.status(400).json(error.message);
+    return res.status(400).json(error);
   }
 }
 

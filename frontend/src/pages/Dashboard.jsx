@@ -25,6 +25,7 @@ export default function Dashboard() {
       <EmptyData
         message={"this page still empty until you save more item"}
         icon={AiOutlineProduct}
+        link={"/"}
       />
     );
   }
