@@ -12,6 +12,7 @@ import AllProducts from "./pages/products/AllProducts";
 import AllUsers from "./pages/users/AllUsers";
 import Product from "./pages/products/Product";
 import CreateProduct from "./pages/products/CreateProduct";
+import EditProduct from "./pages/products/EditProduct";
 
 function App() {
   return (
@@ -64,6 +65,14 @@ function App() {
         element={
           <Layout>
             <Product />
+          </Layout>
+        }
+      />
+      <Route
+        path="/dashboard/product/edit/:id"
+        element={
+          <Layout>
+            <EditProduct />
           </Layout>
         }
       />

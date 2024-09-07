@@ -18,6 +18,14 @@ const ApiProducts = {
     });
     return data;
   },
+  update: async (formData, id) => {
+    const data = await axios.put("/product?id=" + id, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return data;
+  },
   delete: async (id) => {
     const data = await axios.delete(`/product?id=${id}`);
 

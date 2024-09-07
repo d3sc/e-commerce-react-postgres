@@ -70,7 +70,7 @@ export default function AllProducts() {
                     {item.name}
                   </td>
                   <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                    $120,000
+                    ${item.price}
                   </td>
                   <td className="whitespace-nowrap px-4 py-2">
                     <Link

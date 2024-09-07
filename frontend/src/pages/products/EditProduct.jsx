@@ -1,24 +1,34 @@
-import React, { useContext, useState } from "react";
-import { ApiProducts } from "../../helpers/api";
-import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../context/AuthContext";
+import React, { useContext, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import Check from "../../middleware/auth/Check";
-import NotFound from "../NotFound";
+import { AuthContext } from "../../context/AuthContext";
+import { ApiProducts } from "../../helpers/api";
 
-export default function CreateProduct() {
-  const [file, setFile] = useState();
-  const [preview, setPreview] = useState();
+export default function EditProduct() {
+  const { id } = useParams();
+  const [data, setData] = useState();
   const navigate = useNavigate();
-
   // authorization
   const isGuest = Check.isGuest();
   const { user } = useContext(AuthContext);
+  const [preview, setPreview] = useState();
+  const [file, setFile] = useState();
+
+  useEffect(() => {
+    async function render() {
+      const { data } = await ApiProducts.show(id);
+      setPreview(data.image);
+      setData(data);
+    }
+    render();
+  }, []);
 
   const loadImage = (e) => {
     const image = e.target.files[0];
     setFile(image);
     setPreview(URL.createObjectURL(image));
   };
+
   const submit = async (e) => {
     e.preventDefault();
 
@@ -35,13 +45,13 @@ export default function CreateProduct() {
       e.target.querySelector('textarea[name="description"]').value
     );
 
-    const { data } = await ApiProducts.store(formData);
+    const { data: data2 } = await ApiProducts.update(formData, data.id);
 
-    alert(data);
+    alert(data2);
     navigate(`/dashboard/products?message=${encodeURIComponent(data)}`);
   };
 
-  if (!user) return "Loading..";
+  if (!user || !data) return "Loading..";
   if (isGuest || user?.name != "admin")
     return <NotFound code={401} message="Unauthorized user" />;
   return (
@@ -55,7 +65,7 @@ export default function CreateProduct() {
             <div className="grid sm:grid-cols-12 gap-2 sm:gap-4 py-8 first:pt-0 last:pb-0 border-t first:border-transparent border-gray-200">
               <div className="sm:col-span-12">
                 <h2 className="text-lg font-semibold text-gray-800">
-                  Create Product
+                  Edit Product
                 </h2>
               </div>
               <div className="sm:col-span-3">
@@ -68,6 +78,7 @@ export default function CreateProduct() {
               </div>
               <div className="sm:col-span-9">
                 <input
+                  defaultValue={data.name}
                   name="name"
                   id="af-submit-application-name"
                   type="text"
@@ -88,6 +99,7 @@ export default function CreateProduct() {
               {/* End Col */}
               <div className="sm:col-span-9">
                 <input
+                  defaultValue={data.price}
                   name="price"
                   id="af-submit-application-price"
                   type="number"
@@ -180,7 +192,7 @@ export default function CreateProduct() {
                   className="py-2 px-3 block w-full text-sm outline outline-blue-200 outline-2 rounded-lg focus:outline-blue-500 disabled:opacity-50 disabled:pointer-events-none"
                   rows={6}
                   placeholder="Add a cover letter or anything else you want to share."
-                  defaultValue={""}
+                  defaultValue={data.description}
                 />
               </div>
               {/* End Col */}
@@ -197,7 +209,6 @@ export default function CreateProduct() {
         </div>
         {/* End Card */}
       </div>
-      {/* End Card Section */}
     </>
   );
 }

@@ -64,22 +64,77 @@ export async function storeProduct(req, res) {
 }
 
 export async function updateProduct(req, res) {
-  const { id } = req.query;
-  const { name, price, description, image } = req.body;
+  try {
+    const { id } = req.query;
+    const { name, price, description } = req.body;
+    if (!name || !price || !description) throw "Error, Input must fill";
 
-  await prisma.product.update({
-    data: {
-      name,
-      price,
-      description,
-      image,
-    },
-    where: {
-      id: parseInt(id),
-    },
-  });
+    const defaultImage = await prisma.product.findFirst({
+      where: {
+        id: parseInt(id),
+      },
+      select: {
+        image: true,
+      },
+    });
 
-  res.status(201).send("product has been updated!");
+    if (req.files === null) {
+      const url = defaultImage.image;
+      try {
+        await prisma.product.update({
+          data: {
+            name,
+            price: parseInt(price),
+            description,
+            image: url,
+          },
+          where: {
+            id: parseInt(id),
+          },
+        });
+
+        res.status(201).json("Product has been Updated!");
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      const file = req.files.image;
+      const fileSize = file.data.length;
+      const ext = path.extname(file.name);
+      const fileName = file.md5 + ext;
+      const url = `${req.protocol}://${req.get("host")}/images/${fileName}`;
+      const allowedType = [".png", ".jpg", ".jpeg"];
+
+      if (!allowedType.includes(ext.toLowerCase()))
+        throw "Error, file isn't image";
+
+      if (fileSize > 5000000) throw "Error, Image must be less than 5 MB";
+
+      file.mv(`./public/images/${fileName}`, async (err) => {
+        try {
+          if (err) throw err;
+
+          await prisma.product.update({
+            data: {
+              name,
+              price: parseInt(price),
+              description,
+              image: url,
+            },
+            where: {
+              id: parseInt(id),
+            },
+          });
+
+          res.status(201).json("Product has been Updated!");
+        } catch (err) {
+          console.log(err);
+        }
+      });
+    }
+  } catch (error) {
+    res.status(400).json({ error });
+  }
 }
 
 export async function deleteProduct(req, res) {
