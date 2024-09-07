@@ -27,7 +27,7 @@ export default function ProductCard({ productId, image, text, price }) {
           </button>
         </div>
         <p className="font-bold dark:text-white">{text}</p>
-        <p className="font-bold dark:text-white">{price}</p>
+        <p className="font-bold dark:text-white">${price}</p>
       </div>
     </div>
   );
