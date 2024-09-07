@@ -1,6 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 import path from "path";
+import fs from "fs";
+import "dotenv/config";
+const port = process.env.PORT;
 
 export async function getProducts(req, res) {
   const product = await prisma.product.findMany();
@@ -81,12 +84,32 @@ export async function updateProduct(req, res) {
 
 export async function deleteProduct(req, res) {
   const { id } = req.query;
+  const parsedId = parseInt(id);
 
-  await prisma.product.delete({
+  const product = await prisma.product.findFirst({
     where: {
-      id: parseInt(id),
+      id: parsedId,
     },
   });
 
-  res.status(200).send("product has been deleted!");
+  if (product) {
+    const productImageUrl = new URL(product.image);
+    const productImageHost = productImageUrl.host;
+
+    if (productImageHost === req.get("host")) {
+      const fileName = path.basename(product.image);
+      const filepath = `public/images/${fileName}`;
+      fs.unlinkSync(filepath);
+    }
+
+    await prisma.product.delete({
+      where: {
+        id: parsedId,
+      },
+    });
+
+    res.status(200).send("Product has been deleted!");
+  } else {
+    res.status(404).send("Product not found");
+  }
 }
