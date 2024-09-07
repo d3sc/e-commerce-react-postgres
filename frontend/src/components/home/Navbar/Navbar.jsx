@@ -48,6 +48,7 @@ const DropDownLinks = [
 ];
 export default function Navbar() {
   const { user } = useContext(AuthContext);
+  console.log(user);
   return (
     <div className="bg-white dark:bg-gray-900 dark:text-white duration-200 relative z-40">
       <div className="py-4">
@@ -110,7 +111,7 @@ export default function Navbar() {
               />
               <IoMdSearch className="text-xl text-gray-600 group-hover:text-pretty group-hover:text-primary dark:text-gray-400 absolute top-1/2 -translate-y-1/2 right-3 duration-200" />
             </div>
-            {user?.error ? (
+            {user?.error || user == null ? (
               <Link to={"/login"} className="relative">
                 <MdLogin className="text-2xl text-gray-600 dark:text-gray-400" />
               </Link>
