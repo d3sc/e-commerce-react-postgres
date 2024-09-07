@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { ApiProducts } from "../../helpers/api";
 import Check from "../../middleware/auth/Check";
 import { AuthContext } from "../../context/AuthContext";
@@ -8,6 +8,7 @@ import NotFound from "../NotFound";
 export default function Product() {
   const { id } = useParams();
   const [data, setData] = useState();
+  const navigate = useNavigate();
   // authorization
   const isGuest = Check.isGuest();
   const { user } = useContext(AuthContext);
@@ -15,6 +16,12 @@ export default function Product() {
   useEffect(() => {
     ApiProducts.show(id).then(({ data }) => setData(data));
   }, []);
+
+  const deleteProduct = async (id) => {
+    const { data } = await ApiProducts.delete(id);
+    alert(data);
+    navigate(`/dashboard/products?message=${encodeURIComponent(data)}`);
+  };
 
   if (!user || !data) return "Loading..";
   if (isGuest || user?.name != "admin")
@@ -51,12 +58,12 @@ export default function Product() {
                 >
                   Edit
                 </Link>
-                <Link
-                  to={`/dashboard/product/delete/${data.id}`}
+                <button
+                  onClick={() => deleteProduct(data.id)}
                   className="inline-block rounded bg-red-600 px-4 py-2 text-xs font-medium text-white hover:bg-red-700"
                 >
                   Delete
-                </Link>
+                </button>
               </div>
             </dd>
           </div>

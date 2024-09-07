@@ -18,6 +18,11 @@ const ApiProducts = {
     });
     return data;
   },
+  delete: async (id) => {
+    const data = await axios.delete(`/product?id=${id}`);
+
+    return data;
+  },
 };
 
 const ApiLikes = {
