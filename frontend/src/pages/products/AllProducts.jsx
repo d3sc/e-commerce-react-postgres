@@ -29,16 +29,16 @@ export default function AllProducts() {
             <thead className="ltr:text-left rtl:text-right">
               <tr className="">
                 <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-start">
+                  Image
+                </th>
+                <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-start">
                   Name
                 </th>
                 <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-start">
-                  Date of Birth
+                  Price
                 </th>
                 <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-start">
-                  Role
-                </th>
-                <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-start">
-                  Salary
+                  Action
                 </th>
                 <th className="px-4 py-2"></th>
               </tr>

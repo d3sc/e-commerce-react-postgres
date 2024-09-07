@@ -57,6 +57,16 @@ const createSeeder = async () => {
       product: true,
     },
   });
+  const cart_item2 = await prisma.cart_item.create({
+    data: {
+      quantity: 8,
+      productId: product2.id,
+      cartId: cart.id,
+    },
+    include: {
+      product: true,
+    },
+  });
 
   const likes = await prisma.likes.create({
     data: {

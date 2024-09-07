@@ -10,6 +10,7 @@ import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import AllProducts from "./pages/products/AllProducts";
 import AllUsers from "./pages/users/AllUsers";
+import Product from "./pages/products/Product";
 
 function App() {
   return (
@@ -46,6 +47,14 @@ function App() {
         element={
           <Layout>
             <AllProducts />
+          </Layout>
+        }
+      />
+      <Route
+        path="/dashboard/product/:id"
+        element={
+          <Layout>
+            <Product />
           </Layout>
         }
       />

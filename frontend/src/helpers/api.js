@@ -6,6 +6,10 @@ const ApiProducts = {
 
     return data;
   },
+  show: async (id) => {
+    const data = await axios.get(`/product?id=${id}`);
+    return data;
+  },
 };
 
 const ApiLikes = {
