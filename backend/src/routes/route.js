@@ -7,6 +7,7 @@ import {
   updateProduct,
   deleteProduct,
   showProduct,
+  storeImage,
 } from "../controllers/ProductController.js";
 import {
   getProfile,
@@ -37,6 +38,7 @@ router.get("/logout", logout);
 router.get("/products", getProducts);
 router.get("/product", showProduct);
 router.post("/product", storeProduct);
+router.post("/product/image", storeImage);
 router.put("/product", updateProduct);
 router.delete("/product", deleteProduct);
 

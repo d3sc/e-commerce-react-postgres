@@ -3,16 +3,24 @@ import Check from "../../middleware/auth/Check";
 import { AuthContext } from "../../context/AuthContext";
 import NotFound from "../NotFound";
 import { ApiProducts } from "../../helpers/api";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 
 export default function AllProducts() {
   const isGuest = Check.isGuest();
   const { user } = useContext(AuthContext);
   const [data, setData] = useState();
 
+  const [searchParams] = useSearchParams();
+  const pageParams = searchParams.get("message");
+  const [notif, setNotif] = useState("");
+
   useEffect(() => {
     ApiProducts.get().then(({ data }) => setData(data));
   }, []);
+
+  useEffect(() => {
+    setNotif(pageParams);
+  }, [pageParams]);
 
   if (isGuest || user?.name != "admin")
     return <NotFound code={401} message="Unauthorized user" />;
@@ -20,10 +28,14 @@ export default function AllProducts() {
   return (
     <div className="p-4">
       <h1>Products manager page</h1>
+      <p>{notif}</p>
       <div className="mt-6">
-        <button className="bg-brandBlue/95 text-white py-2 px-6 rounded-md hover:bg-brandBlue">
+        <Link
+          to={"/dashboard/create/product"}
+          className="bg-brandBlue/95 text-white py-2 px-6 rounded-md hover:bg-brandBlue"
+        >
           create
-        </button>
+        </Link>
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
             <thead className="ltr:text-left rtl:text-right">

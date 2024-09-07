@@ -20,7 +20,6 @@ export default function Product() {
   if (isGuest || user?.name != "admin")
     return <NotFound code={401} message="Unauthorized user" />;
 
-  console.log(data);
   return (
     <div className="p-8">
       <div className="flex flex-col lg:flex-row gap-6">

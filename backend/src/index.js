@@ -1,4 +1,5 @@
 import express from "express";
+import FileUpload from "express-fileupload";
 import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
@@ -12,6 +13,8 @@ const port = process.env.PORT;
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
+app.use(FileUpload());
+app.use(express.static("public"));
 app.use(
   cors({
     credentials: true,

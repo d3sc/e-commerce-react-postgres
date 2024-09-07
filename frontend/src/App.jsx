@@ -11,6 +11,7 @@ import NotFound from "./pages/NotFound";
 import AllProducts from "./pages/products/AllProducts";
 import AllUsers from "./pages/users/AllUsers";
 import Product from "./pages/products/Product";
+import CreateProduct from "./pages/products/CreateProduct";
 
 function App() {
   return (
@@ -47,6 +48,14 @@ function App() {
         element={
           <Layout>
             <AllProducts />
+          </Layout>
+        }
+      />
+      <Route
+        path="/dashboard/create/product"
+        element={
+          <Layout>
+            <CreateProduct />
           </Layout>
         }
       />

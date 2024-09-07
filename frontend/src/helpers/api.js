@@ -10,6 +10,14 @@ const ApiProducts = {
     const data = await axios.get(`/product?id=${id}`);
     return data;
   },
+  store: async (formData) => {
+    const data = await axios.post("/product", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return data;
+  },
 };
 
 const ApiLikes = {
@@ -44,7 +52,6 @@ const ApiCarts = {
   },
   getUserCart: async () => {
     const { data } = await axios.post("/cart/user");
-    // console.log(data);
     return data;
   },
   changeQty: async (itemId, qty) => {
