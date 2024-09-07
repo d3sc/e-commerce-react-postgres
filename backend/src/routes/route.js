@@ -26,12 +26,16 @@ import {
   getUserCart,
   storeCart,
 } from "../controllers/CartController.js";
+import { getUsers } from "../controllers/UsersController.js";
 
 // auth route
 router.post("/register", register);
 router.post("/login", login);
 router.get("/profile", getProfile);
 router.get("/logout", logout);
+
+// user route
+router.get("/users", getUsers);
 
 // products route
 router.get("/products", getProducts);

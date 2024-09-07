@@ -2,8 +2,6 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 import path from "path";
 import fs from "fs";
-import "dotenv/config";
-const port = process.env.PORT;
 
 export async function getProducts(req, res) {
   const product = await prisma.product.findMany();

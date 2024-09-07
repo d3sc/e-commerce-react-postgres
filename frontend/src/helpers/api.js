@@ -94,4 +94,12 @@ const ApiCarts = {
   },
 };
 
-export { ApiProducts, ApiLikes, ApiCarts };
+const ApiUsers = {
+  getUsers: async () => {
+    const data = await axios.get("/users");
+
+    return data;
+  },
+};
+
+export { ApiProducts, ApiLikes, ApiCarts, ApiUsers };
