@@ -1,3 +1,10 @@
+**Dokumentasi Projek**
+
+<video controls allowfullscreen>
+  <source src="./docs/videos/doc-vid.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
 **E-commerce React JS PostgreSQL**
 
 Proyek ini adalah sebuah aplikasi e-commerce yang dibangun menggunakan teknologi React JS, TailwindCSS,Express JS, Prisma ORM, dan PostgreSQL. Aplikasi ini menawarkan berbagai fitur yang membuat pengalaman belanja online menjadi lebih mudah dan menyenangkan.
@@ -7,20 +14,10 @@ Proyek ini adalah sebuah aplikasi e-commerce yang dibangun menggunakan teknologi
 1. **Tampilan Desain yang Menarik dan Responsive**: Aplikasi ini dirancang dengan menggunakan TailwindCSS untuk memberikan tampilan yang modern dan responsif.
 2. **Dashboard untuk User**: Pengguna dapat mengakses dashboard mereka untuk melihat riwayat belanja, daftar keinginan, dan informasi akun.
 3. **Tampilan Checkout pada Cart**: Setelah pengguna selesai memilih produk, mereka dapat mengatur quantity produk / menghapus produk yang disimpan di database dan melanjutkan ke proses checkout yang mudah dan aman.
-4. **Authentication dan Authorization**: Aplikasi ini dilengkapi dengan sistem autentikasi dan otorisasi yang aman. Pengguna harus masuk atau mendaftar untuk mengakses fitur-fitur tertentu.
-5. **Fitur Registrasi**: Pengguna dapat mendaftar dengan mudah dan cepat untuk mendapatkan akses ke fitur-fitur aplikasi.
-6. **Add to Wishlist Product**: Pengguna dapat menambahkan produk ke wishlist belanja mereka dengan mudah. produk akan langsung disimpan di database wishlist produk.
-7. **Wishlist Product**: Fitur ini memungkinkan pengguna untuk menambahkan produk ke daftar keinginan mereka yang sudah disimpan di database. dan pengguna dapat langsung memindahkan pesanan ke dalam cart.
-
-**Gambar Fitur**
-
-![Gambar Fitur 1](./image/image-1.png)
-![Gambar Fitur 2](./image/image-2.png)
-![Gambar Fitur 3](./image/image-3.png)
-![Gambar Fitur 4](./image/image-4.png)
-![Gambar Fitur 5](./image/image-5.png)
-![Gambar Fitur 6](./image/image-6.png)
-![Gambar Fitur 7](./image/image-7.png)
+4. **Wishlist Product**: Fitur ini memungkinkan pengguna untuk menambahkan produk ke daftar keinginan mereka yang sudah disimpan di database. dan pengguna dapat langsung memindahkan pesanan ke dalam cart.
+5. **Authentication dan Authorization**: Aplikasi ini dilengkapi dengan sistem autentikasi dan otorisasi yang aman. Pengguna harus masuk atau mendaftar untuk mengakses fitur-fitur tertentu.
+6. **Fitur Registrasi**: Pengguna dapat mendaftar dengan mudah dan cepat untuk mendapatkan akses ke fitur-fitur aplikasi.
+7. **Fitur Admin Base**: Fitur ini memberikan akses khusus kepada admin untuk mengelola aplikasi secara lebih efektif. Hanya admin yang dapat mengakses fitur ini untuk mengatur dan mengelola konten aplikasi.
 
 **Teknologi yang Digunakan**
 
