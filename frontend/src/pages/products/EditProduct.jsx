@@ -48,7 +48,7 @@ export default function EditProduct() {
     const { data: data2 } = await ApiProducts.update(formData, data.id);
 
     alert(data2);
-    navigate(`/dashboard/products?message=${encodeURIComponent(data)}`);
+    navigate(`/dashboard/products?message=${encodeURIComponent(data2)}`);
   };
 
   if (!user || !data) return "Loading..";

@@ -96,6 +96,10 @@ export async function updateProduct(req, res) {
         console.log(err);
       }
     } else {
+      const beforeFileName = path.basename(defaultImage.image);
+      const filepath = `public/images/${beforeFileName}`;
+      fs.unlinkSync(filepath);
+
       const file = req.files.image;
       const fileSize = file.data.length;
       const ext = path.extname(file.name);

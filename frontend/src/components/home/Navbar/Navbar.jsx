@@ -48,7 +48,6 @@ const DropDownLinks = [
 ];
 export default function Navbar() {
   const { user } = useContext(AuthContext);
-  console.log(user);
   return (
     <div className="bg-white dark:bg-gray-900 dark:text-white duration-200 relative z-40">
       <div className="py-4">

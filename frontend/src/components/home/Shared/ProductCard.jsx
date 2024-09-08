@@ -5,7 +5,7 @@ import { ApiLikes } from "../../../helpers/api";
 export default function ProductCard({ productId, image, text, price }) {
   const { user } = useContext(AuthContext);
   const submitCart = async (e) => {
-    if (user?.error) return alert(user.error);
+    if (user?.error || !user) return alert("Error, You're not signed!");
     const data = await ApiLikes.store(productId, user.id);
     alert(data);
   };
