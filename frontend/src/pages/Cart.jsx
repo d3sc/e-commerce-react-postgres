@@ -106,7 +106,7 @@ export default function Cart() {
                 <th className="text-start whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                   Price
                 </th>
-                <th className="px-4 py-2">Action</th>
+                <th className="px-4 py-2 text-start">Action</th>
               </tr>
             </thead>
 
@@ -119,10 +119,10 @@ export default function Cart() {
                       <img
                         src={item.product.image}
                         alt=""
-                        className="w-32 h-32 rounded-md border-4 border-white"
+                        className="w-32 h-32 rounded-md border-4 border-white object-cover"
                       />
                     </td>
-                    <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                    <td className="whitespace-nowrap px-4 py-2 text-gray-700 capitalize font-bold">
                       {item.product.name}
                     </td>
                     <td className="whitespace-nowrap px-4 py-2 text-gray-700">
@@ -146,7 +146,7 @@ export default function Cart() {
                         </button>
                       </div>
                     </td>
-                    <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                    <td className="whitespace-nowrap px-4 py-2 text-gray-700 font-bold">
                       ${item.quantity * item.product.price}
                     </td>
                     <td className="whitespace-nowrap px-4 py-2">

@@ -33,18 +33,25 @@ export default function EditProduct() {
   const submit = async (e) => {
     e.preventDefault();
 
+    const name = e.target.querySelector('input[name="name"]').value;
+    const price = e.target.querySelector('input[name="price"]').value;
+    const description = e.target.querySelector(
+      'textarea[name="description"]'
+    ).value;
+
+    if (!file || !name || !price || !description)
+      return Swal.fire({
+        title: "Error!",
+        text: "input must fill!",
+        icon: "error",
+      });
+
     const formData = new FormData();
 
     formData.append("image", file);
-    formData.append("name", e.target.querySelector('input[name="name"]').value);
-    formData.append(
-      "price",
-      e.target.querySelector('input[name="price"]').value
-    );
-    formData.append(
-      "description",
-      e.target.querySelector('textarea[name="description"]').value
-    );
+    formData.append("name", name);
+    formData.append("price", price);
+    formData.append("description", description);
 
     const { data: data2 } = await ApiProducts.update(formData, data.id);
 
