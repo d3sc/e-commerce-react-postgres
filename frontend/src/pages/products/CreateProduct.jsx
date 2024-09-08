@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import Check from "../../middleware/auth/Check";
 import NotFound from "../NotFound";
+import Swal from "sweetalert2";
 
 export default function CreateProduct() {
   const [file, setFile] = useState();
@@ -37,8 +38,23 @@ export default function CreateProduct() {
 
     const { data } = await ApiProducts.store(formData);
 
-    alert(data);
-    navigate(`/dashboard/products?message=${encodeURIComponent(data)}`);
+    if (data?.success) {
+      Swal.fire({
+        title: "Success!",
+        text: data.success,
+        icon: "success",
+      });
+      navigate(
+        `/dashboard/products?message=${encodeURIComponent(data.success)}`
+      );
+    } else if (data?.error) {
+      Swal.fire({
+        title: "Error!",
+        text: data.error,
+        icon: "error",
+      });
+      navigate(`/dashboard/products?message=${encodeURIComponent(data.error)}`);
+    }
   };
 
   if (!user) return "Loading..";

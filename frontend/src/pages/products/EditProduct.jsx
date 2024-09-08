@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Check from "../../middleware/auth/Check";
 import { AuthContext } from "../../context/AuthContext";
 import { ApiProducts } from "../../helpers/api";
+import Swal from "sweetalert2";
 
 export default function EditProduct() {
   const { id } = useParams();
@@ -47,8 +48,26 @@ export default function EditProduct() {
 
     const { data: data2 } = await ApiProducts.update(formData, data.id);
 
-    alert(data2);
-    navigate(`/dashboard/products?message=${encodeURIComponent(data2)}`);
+    // alert(data2);
+    if (data2?.success) {
+      Swal.fire({
+        title: "Success!",
+        text: data2.success,
+        icon: "success",
+      });
+      navigate(
+        `/dashboard/products?message=${encodeURIComponent(data2.success)}`
+      );
+    } else if (data2?.error) {
+      Swal.fire({
+        title: "Error!",
+        text: data2.error,
+        icon: "error",
+      });
+      navigate(
+        `/dashboard/products?message=${encodeURIComponent(data2.error)}`
+      );
+    }
   };
 
   if (!user || !data) return "Loading..";

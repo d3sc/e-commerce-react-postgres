@@ -44,7 +44,8 @@ const ApiLikes = {
       productId,
       userId,
     });
-    return data?.error ? data.error : data.success;
+    // return data?.error ? data.error : data.success;
+    return data;
   },
   deleteLike: async (itemId) => {
     const data = await axios.delete("/likes", {
@@ -81,7 +82,7 @@ const ApiCarts = {
       productId,
       cartId,
     });
-    return data?.error ? data.error : data.success;
+    return data;
   },
   deleteCart: async (itemId) => {
     const data = await axios.delete("/cart-item", {

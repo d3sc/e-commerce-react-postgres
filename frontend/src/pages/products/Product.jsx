@@ -4,6 +4,7 @@ import { ApiProducts } from "../../helpers/api";
 import Check from "../../middleware/auth/Check";
 import { AuthContext } from "../../context/AuthContext";
 import NotFound from "../NotFound";
+import Swal from "sweetalert2";
 
 export default function Product() {
   const { id } = useParams();
@@ -19,8 +20,28 @@ export default function Product() {
 
   const deleteProduct = async (id) => {
     const { data } = await ApiProducts.delete(id);
-    alert(data);
     navigate(`/dashboard/products?message=${encodeURIComponent(data)}`);
+  };
+
+  const confirmDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteProduct(id);
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your item has been deleted.",
+          icon: "success",
+        });
+      }
+    });
   };
 
   if (!user || !data) return "Loading..";
@@ -59,9 +80,7 @@ export default function Product() {
                   Edit
                 </Link>
                 <button
-                  onClick={() =>
-                    confirm("Are you Sure?") ? deleteProduct(data.id) : ""
-                  }
+                  onClick={() => confirmDelete(data.id)}
                   className="inline-block rounded bg-red-600 px-4 py-2 text-xs font-medium text-white hover:bg-red-700"
                 >
                   Delete

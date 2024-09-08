@@ -15,7 +15,7 @@ export default function Products() {
         <h1 className="text-4xl dark:text-white font-bold">Our product</h1>
         <p className="text-xs text-gray-400">Explore Our Products</p>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 overflow-hidden">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 overflow-hidden py-6">
         {dataProduct?.map((item, index) => (
           <ProductCard
             key={index}

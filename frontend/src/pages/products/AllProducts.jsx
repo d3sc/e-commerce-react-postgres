@@ -27,7 +27,7 @@ export default function AllProducts() {
   if (!user || !data) return "Loading..";
   return (
     <div className="p-4">
-      <h1>Products manager page</h1>
+      <h1 className="font-bold text-xl mb-4">Products manager page</h1>
       <p>{notif}</p>
       <div className="mt-6">
         <Link
@@ -63,7 +63,7 @@ export default function AllProducts() {
                     <img
                       src={item.image}
                       alt=""
-                      className="w-32 h-32 rounded-md border-4 border-white"
+                      className="w-32 h-32 rounded-md border-4 border-white object-cover"
                     />
                   </td>
                   <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">

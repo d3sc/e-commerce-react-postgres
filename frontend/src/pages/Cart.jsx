@@ -3,6 +3,7 @@ import { ApiCarts } from "../helpers/api";
 import { BsCartPlus } from "react-icons/bs";
 import EmptyData from "../components/dashboard/EmptyData";
 import Check from "../middleware/auth/Check";
+import Swal from "sweetalert2";
 
 function calculateTotalPrice(cartItems) {
   return cartItems
@@ -64,6 +65,27 @@ export default function Cart() {
         link={"/dashboard/likes"}
       />
     );
+
+  const confirmDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteHandle(id);
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your item has been deleted.",
+          icon: "success",
+        });
+      }
+    });
+  };
 
   return (
     <div className="relative h-screen w-full">
@@ -129,9 +151,7 @@ export default function Cart() {
                     </td>
                     <td className="whitespace-nowrap px-4 py-2">
                       <button
-                        onClick={() =>
-                          confirm("Are you sure?") ? deleteHandle(item.id) : ""
-                        }
+                        onClick={() => confirmDelete(item.id)}
                         className="inline-block rounded bg-red-500 px-4 py-2 text-xs font-medium text-white hover:bg-red-600"
                       >
                         delete

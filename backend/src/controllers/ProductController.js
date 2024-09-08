@@ -51,7 +51,7 @@ export async function storeProduct(req, res) {
           },
         });
 
-        res.status(201).json("Product has been stored!");
+        res.status(201).json({ success: "Product has been stored!" });
       } catch (err) {
         console.log(err);
       }
@@ -77,8 +77,8 @@ export async function updateProduct(req, res) {
     });
 
     if (req.files === null) {
-      const url = defaultImage.image;
       try {
+        const url = defaultImage.image;
         await prisma.product.update({
           data: {
             name,
@@ -91,7 +91,7 @@ export async function updateProduct(req, res) {
           },
         });
 
-        res.status(201).json("Product has been Updated!");
+        res.status(201).json({ success: "Product has been Updated!" });
       } catch (err) {
         console.log(err);
       }
@@ -112,9 +112,9 @@ export async function updateProduct(req, res) {
 
       if (fileSize > 5000000) throw "Error, Image must be less than 5 MB";
 
-      file.mv(`./public/images/${fileName}`, async (err) => {
+      file.mv(`./public/images/${fileName}`, async (error) => {
         try {
-          if (err) throw err;
+          if (error) throw error;
 
           await prisma.product.update({
             data: {
@@ -128,9 +128,9 @@ export async function updateProduct(req, res) {
             },
           });
 
-          res.status(201).json("Product has been Updated!");
-        } catch (err) {
-          console.log(err);
+          res.status(201).json({ success: "Product has been Updated!" });
+        } catch (error) {
+          res.status(400).json({ error });
         }
       });
     }

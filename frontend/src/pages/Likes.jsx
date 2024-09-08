@@ -6,6 +6,7 @@ import { FaHeartCirclePlus } from "react-icons/fa6";
 import axios from "axios";
 import EmptyData from "../components/dashboard/EmptyData";
 import Check from "../middleware/auth/Check";
+import Swal from "sweetalert2";
 
 export default function Likes() {
   const isGuest = Check.isGuest();
@@ -32,7 +33,19 @@ export default function Likes() {
     const cartId = data?.id ? data.id : undefined;
 
     const data2 = await ApiCarts.store(parseInt(quantity), productId, cartId);
-    alert(data2);
+    if (data2?.success) {
+      Swal.fire({
+        title: "Success!",
+        text: data2.success,
+        icon: "success",
+      });
+    } else if (data2?.error) {
+      Swal.fire({
+        title: "Error!",
+        text: data2.error,
+        icon: "error",
+      });
+    }
   };
 
   if (!data) return "Loading..";
@@ -69,7 +82,7 @@ export default function Likes() {
                   </p>
                 </div>
 
-                <p className="text-gray-900">${item.product.price}</p>
+                <p className="text-gray-900 text-xl">${item.product.price}</p>
               </div>
               <div className="w-full flex justify-end items-start p-6">
                 <button onClick={() => deleteHandle(item.id)}>
