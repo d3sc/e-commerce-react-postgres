@@ -1,12 +1,13 @@
 import { ApiCarts, ApiLikes } from "../helpers/api";
 import { useEffect } from "react";
 import { useState } from "react";
-import { IoIosHeart, IoIosHeartEmpty } from "react-icons/io";
+import { IoIosHeart } from "react-icons/io";
 import { FaHeartCirclePlus } from "react-icons/fa6";
 import axios from "axios";
 import EmptyData from "../components/dashboard/EmptyData";
 import Check from "../middleware/auth/Check";
 import Swal from "sweetalert2";
+import formatRupiah from "../helpers/formatRupiah";
 
 export default function Likes() {
   const isGuest = Check.isGuest();
@@ -82,7 +83,9 @@ export default function Likes() {
                   </p>
                 </div>
 
-                <p className="text-gray-900 text-xl">${item.product.price}</p>
+                <p className="text-gray-900 text-xl">
+                  {formatRupiah(item.product.price)}
+                </p>
               </div>
               <div className="w-full flex justify-end items-start p-6">
                 <button onClick={() => deleteHandle(item.id)}>

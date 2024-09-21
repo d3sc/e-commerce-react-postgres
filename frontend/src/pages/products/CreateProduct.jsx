@@ -1,14 +1,16 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { ApiProducts } from "../../helpers/api";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import Check from "../../middleware/auth/Check";
 import NotFound from "../NotFound";
 import Swal from "sweetalert2";
+import formatInputToRupiah from "../../helpers/formatInputToRupiah";
 
 export default function CreateProduct() {
   const [file, setFile] = useState();
   const [preview, setPreview] = useState();
+  const [price, setPrice] = useState("");
   const navigate = useNavigate();
 
   // authorization
@@ -24,10 +26,13 @@ export default function CreateProduct() {
     e.preventDefault();
 
     const name = e.target.querySelector('input[name="name"]').value;
-    const price = e.target.querySelector('input[name="price"]').value;
+    let price = e.target.querySelector('input[name="price"]').value;
     const description = e.target.querySelector(
       'textarea[name="description"]'
     ).value;
+
+    // change price to int
+    price = parseInt(price.replace(/\./g, ""), 10);
 
     if (!file || !name || !price || !description)
       return Swal.fire({
@@ -45,7 +50,7 @@ export default function CreateProduct() {
 
     const { data } = await ApiProducts.store(formData);
 
-    if (data?.success) {
+    if (data.success) {
       Swal.fire({
         title: "Success!",
         text: data.success,
@@ -54,7 +59,7 @@ export default function CreateProduct() {
       navigate(
         `/dashboard/products?message=${encodeURIComponent(data.success)}`
       );
-    } else if (data?.error) {
+    } else if (data.error) {
       Swal.fire({
         title: "Error!",
         text: data.error,
@@ -62,6 +67,10 @@ export default function CreateProduct() {
       });
       navigate(`/dashboard/products?message=${encodeURIComponent(data.error)}`);
     }
+  };
+
+  const handleChange = (e) => {
+    setPrice(formatInputToRupiah(e.target.value));
   };
 
   if (!user) return "Loading..";
@@ -113,7 +122,9 @@ export default function CreateProduct() {
                 <input
                   name="price"
                   id="af-submit-application-price"
-                  type="number"
+                  type="text"
+                  value={price}
+                  onChange={handleChange}
                   className="py-2 px-3 pe-11 block w-full text-sm outline outline-blue-200 outline-2 rounded-lg focus:outline-blue-500 disabled:opacity-50 disabled:pointer-events-none"
                 />
               </div>

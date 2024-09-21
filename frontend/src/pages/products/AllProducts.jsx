@@ -4,6 +4,7 @@ import { AuthContext } from "../../context/AuthContext";
 import NotFound from "../NotFound";
 import { ApiProducts } from "../../helpers/api";
 import { Link, useSearchParams } from "react-router-dom";
+import formatRupiah from "../../helpers/formatRupiah";
 
 export default function AllProducts() {
   const isGuest = Check.isGuest();
@@ -70,7 +71,7 @@ export default function AllProducts() {
                     {item.name}
                   </td>
                   <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                    ${item.price}
+                    {formatRupiah(item.price)}
                   </td>
                   <td className="whitespace-nowrap px-4 py-2">
                     <Link

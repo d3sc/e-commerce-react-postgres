@@ -1,5 +1,6 @@
 import React from "react";
 import { TiAttachment } from "react-icons/ti";
+import formatRupiah from "../../helpers/formatRupiah";
 
 export default function ItemCard({ item }) {
   return (
@@ -22,7 +23,7 @@ export default function ItemCard({ item }) {
             </p>
           </div>
 
-          <p className="text-gray-900">${item.price}</p>
+          <p className="text-gray-900">{formatRupiah(item.price)}</p>
         </div>
       </a>
     </div>

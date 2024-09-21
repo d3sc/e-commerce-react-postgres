@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { AuthContext } from "../../../context/AuthContext";
 import { ApiLikes } from "../../../helpers/api";
 import Swal from "sweetalert2";
+import formatRupiah from "../../../helpers/formatRupiah";
 
 export default function ProductCard({ productId, image, text, price }) {
   const { user } = useContext(AuthContext);
@@ -49,7 +50,7 @@ export default function ProductCard({ productId, image, text, price }) {
           </h3>
 
           <p className="mt-1.5 text-sm text-gray-700 dark:text-white">
-            ${price}
+            {formatRupiah(price)}
           </p>
 
           <div className="mt-4">

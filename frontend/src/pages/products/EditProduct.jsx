@@ -4,6 +4,7 @@ import Check from "../../middleware/auth/Check";
 import { AuthContext } from "../../context/AuthContext";
 import { ApiProducts } from "../../helpers/api";
 import Swal from "sweetalert2";
+import formatInputToRupiah from "../../helpers/formatInputToRupiah";
 
 export default function EditProduct() {
   const { id } = useParams();
@@ -14,6 +15,7 @@ export default function EditProduct() {
   const { user } = useContext(AuthContext);
   const [preview, setPreview] = useState();
   const [file, setFile] = useState();
+  const [price, setPrice] = useState("");
 
   useEffect(() => {
     async function render() {
@@ -23,6 +25,10 @@ export default function EditProduct() {
     }
     render();
   }, []);
+
+  useEffect(() => {
+    setPrice(formatInputToRupiah(String(data?.price)));
+  }, [data]);
 
   const loadImage = (e) => {
     const image = e.target.files[0];
@@ -34,17 +40,21 @@ export default function EditProduct() {
     e.preventDefault();
 
     const name = e.target.querySelector('input[name="name"]').value;
-    const price = e.target.querySelector('input[name="price"]').value;
+    let price = e.target.querySelector('input[name="price"]').value;
     const description = e.target.querySelector(
       'textarea[name="description"]'
     ).value;
 
-    if (!file || !name || !price || !description)
+    // change price to int
+    price = parseInt(price.replace(/\./g, ""), 10);
+
+    if (!name || !price || !description) {
       return Swal.fire({
         title: "Error!",
         text: "input must fill!",
         icon: "error",
       });
+    }
 
     const formData = new FormData();
 
@@ -75,6 +85,10 @@ export default function EditProduct() {
         `/dashboard/products?message=${encodeURIComponent(data2.error)}`
       );
     }
+  };
+
+  const handleChange = (e) => {
+    setPrice(formatInputToRupiah(e.target.value));
   };
 
   if (!user || !data) return "Loading..";
@@ -125,10 +139,11 @@ export default function EditProduct() {
               {/* End Col */}
               <div className="sm:col-span-9">
                 <input
-                  defaultValue={data.price}
+                  value={price}
                   name="price"
                   id="af-submit-application-price"
                   type="number"
+                  onChange={handleChange}
                   className="py-2 px-3 pe-11 block w-full text-sm outline outline-blue-200 outline-2 rounded-lg focus:outline-blue-500 disabled:opacity-50 disabled:pointer-events-none"
                 />
               </div>

@@ -4,6 +4,7 @@ import { BsCartPlus } from "react-icons/bs";
 import EmptyData from "../components/dashboard/EmptyData";
 import Check from "../middleware/auth/Check";
 import Swal from "sweetalert2";
+import formatRupiah from "../helpers/formatRupiah";
 
 function calculateTotalPrice(cartItems) {
   return cartItems
@@ -147,7 +148,7 @@ export default function Cart() {
                       </div>
                     </td>
                     <td className="whitespace-nowrap px-4 py-2 text-gray-700 font-bold">
-                      ${item.quantity * item.product.price}
+                      {formatRupiah(item.quantity * item.product.price)}
                     </td>
                     <td className="whitespace-nowrap px-4 py-2">
                       <button
@@ -174,7 +175,7 @@ export default function Cart() {
                 </td>
                 <td className="whitespace-nowrap px-4 py-2 text-gray-700"></td>
                 <td className="whitespace-nowrap px-4 py-2 text-gray-700"></td>
-                <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-xl">
                   {cartItems.length}
                 </td>
               </tr>
@@ -186,7 +187,7 @@ export default function Cart() {
                 <td className="whitespace-nowrap px-4 py-2 text-gray-700"></td>
                 <td className="whitespace-nowrap px-4 py-2 text-gray-700"></td>
                 <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                  <span className="text-3xl">${totalPrice}</span>
+                  <span className="text-3xl">{formatRupiah(totalPrice)}</span>
                 </td>
               </tr>
               <tr>
