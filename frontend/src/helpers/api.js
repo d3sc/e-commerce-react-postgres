@@ -93,6 +93,15 @@ const ApiCarts = {
 
     return data;
   },
+  deleteAllItem: async (cartId) => {
+    const data = await axios.delete("/cart-all-item", {
+      data: {
+        cartId,
+      },
+    });
+
+    return data;
+  },
 };
 
 const ApiUsers = {
@@ -103,4 +112,15 @@ const ApiUsers = {
   },
 };
 
-export { ApiProducts, ApiLikes, ApiCarts, ApiUsers };
+const ApiPayment = {
+  pay: async (cartId, userId) => {
+    const data = await axios.post("/api/payment/process-transaction", {
+      cartId,
+      userId,
+    });
+
+    return data;
+  },
+};
+
+export { ApiProducts, ApiLikes, ApiCarts, ApiUsers, ApiPayment };

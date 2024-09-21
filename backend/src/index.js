@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import { default as routes } from "./routes/route.js";
+import { default as paymentRoutes } from "./routes/paymentRoute.js";
 
 const app = express();
 dotenv.config();
@@ -23,6 +24,7 @@ app.use(
 );
 
 app.use("/", routes);
+app.use("/api/payment", paymentRoutes);
 
 app.listen(port, () => {
   console.log("port berjalan di", port);

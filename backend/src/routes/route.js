@@ -21,6 +21,7 @@ import {
 } from "../controllers/LikesController.js";
 import {
   changeQty,
+  deleteAllItem,
   deleteCartItem,
   getCart,
   getUserCart,
@@ -54,6 +55,7 @@ router.get("/cart", getCart);
 router.post("/cart/user", getUserCart);
 router.post("/cart", storeCart);
 router.delete("/cart-item", deleteCartItem);
+router.delete("/cart-all-item", deleteAllItem);
 
 // quantity handle route
 router.post("/qty", changeQty);

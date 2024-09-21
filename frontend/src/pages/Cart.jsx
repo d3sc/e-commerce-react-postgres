@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ApiCarts } from "../helpers/api";
+import { ApiCarts, ApiPayment } from "../helpers/api";
 import { BsCartPlus } from "react-icons/bs";
 import EmptyData from "../components/dashboard/EmptyData";
 import Check from "../middleware/auth/Check";
@@ -16,10 +16,14 @@ export default function Cart() {
   const isGuest = Check.isGuest();
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [userId, setUserId] = useState();
+  const [cartId, setCartId] = useState();
+  const [token, setToken] = useState();
 
   useEffect(() => {
     if (!isGuest) {
       ApiCarts.get().then(({ data }) => {
+        setUserId(data.userId);
         // membuat inisial cartItem agar bisa diubah nilainya jika dimasukkan ke useState, mudah nya seperti duplikat dari data asli
         const initialCartItems = data.cart_item.map((item) => ({
           ...item,
@@ -58,15 +62,6 @@ export default function Cart() {
     ApiCarts.deleteCart(id);
   }
 
-  if (!cartItems.length)
-    return (
-      <EmptyData
-        message={"it seems like you didnt have any item in cart"}
-        icon={BsCartPlus}
-        link={"/dashboard/likes"}
-      />
-    );
-
   const confirmDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -87,6 +82,65 @@ export default function Cart() {
       }
     });
   };
+
+  const checkOut = async (cartId) => {
+    const { data } = await ApiPayment.pay(cartId, userId);
+    if (data.error) return alert("error");
+    setCartId(cartId);
+    setToken(data.token);
+  };
+
+  useEffect(() => {
+    if (token) {
+      window.snap.pay(token, {
+        onSuccess: async (result) => {
+          localStorage.setItem("pembayaran", JSON.stringify(result));
+          await ApiCarts.deleteAllItem(cartId);
+          setToken("");
+        },
+        onPending: (result) => {
+          localStorage.setItem("pembayaran", JSON.stringify(result));
+          setToken("");
+        },
+        onError: (error) => {
+          console.log(error);
+          setToken("");
+        },
+        onClose: () => {
+          console.log("Anda belum menyelesaikan pembayaran");
+          setToken("");
+        },
+      });
+    }
+  }, [token]);
+
+  useEffect(() => {
+    // memberikan ini wajib
+    const midtransUrl = "https://app.sandbox.midtrans.com/snap/snap.js";
+
+    let scriptTag = document.createElement("script");
+    scriptTag.src = midtransUrl;
+
+    scriptTag.setAttribute(
+      "data-client-key",
+      import.meta.env.VITE_REACT_CLIENT_KEY
+    );
+
+    document.body.appendChild(scriptTag);
+
+    return () => {
+      document.body.removeChild(scriptTag);
+    };
+  }, []);
+
+  if (!cartItems.length)
+    return (
+      <EmptyData
+        message={"it seems like you didnt have any item in cart"}
+        icon={BsCartPlus}
+        link={"/dashboard/likes"}
+      />
+    );
 
   return (
     <div className="relative h-screen w-full">
@@ -195,7 +249,10 @@ export default function Cart() {
                 <td className="whitespace-nowrap px-4 py-2 text-gray-700"></td>
                 <td className="whitespace-nowrap px-4 py-2 text-gray-700"></td>
                 <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                  <button className="inline-block rounded bg-indigo-600 px-6 py-3 text-xl font-medium text-white hover:bg-indigo-700">
+                  <button
+                    className="inline-block rounded bg-indigo-600 px-6 py-3 text-xl font-medium text-white hover:bg-indigo-700"
+                    onClick={() => checkOut(cartItems[0].cartId)}
+                  >
                     Check Out
                   </button>
                 </td>
