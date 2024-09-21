@@ -11,7 +11,6 @@ import formatRupiah from "../helpers/formatRupiah";
 
 export default function Likes() {
   const isGuest = Check.isGuest();
-  const [quantity, setQuantity] = useState(1);
   const [data, setData] = useState();
   useEffect(() => {
     if (!isGuest)
@@ -26,7 +25,7 @@ export default function Likes() {
     ApiLikes.deleteLike(id);
   };
 
-  const addToCart = async (productId) => {
+  const addToCart = async (productId, quantity) => {
     if (quantity <= 0 || !quantity) return alert("quantity invalid!");
 
     const data = await ApiCarts.getUserCart();
@@ -63,55 +62,59 @@ export default function Likes() {
     <div className="mx-4">
       <h1 className="text-lg font-semibold py-4">Your Wishlist</h1>
       <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-8">
-        {data?.map((item, index) => (
-          <div className="mb-12 bg-white" key={index}>
-            <div href="#" className="group block">
-              <img
-                src={item.product.image}
-                alt=""
-                className="h-[350px] w-full object-cover sm:h-[450px]"
-              />
+        {data?.map((item, index) => {
+          let qtyItem = 1;
 
-              <div className="mt-3 flex justify-between text-sm">
-                <div>
-                  <h3 className="text-gray-900 group-hover:underline group-hover:underline-offset-4">
-                    {item.product.name}
-                  </h3>
+          return (
+            <div className="mb-12 bg-white" key={index}>
+              <div href="#" className="group block">
+                <img
+                  src={item.product.image}
+                  alt=""
+                  className="h-[350px] w-full object-cover sm:h-[450px]"
+                />
 
-                  <p className="mt-1.5 text-pretty text-xs text-gray-500">
-                    {item.product.description}
+                <div className="mt-3 flex justify-between text-sm">
+                  <div>
+                    <h3 className="text-gray-900 group-hover:underline group-hover:underline-offset-4">
+                      {item.product.name}
+                    </h3>
+
+                    <p className="mt-1.5 text-pretty text-xs text-gray-500">
+                      {item.product.description}
+                    </p>
+                  </div>
+
+                  <p className="text-gray-900 text-xl">
+                    {formatRupiah(item.product.price)}
                   </p>
                 </div>
-
-                <p className="text-gray-900 text-xl">
-                  {formatRupiah(item.product.price)}
-                </p>
-              </div>
-              <div className="w-full flex justify-end items-start p-6">
-                <button onClick={() => deleteHandle(item.id)}>
-                  <IoIosHeart
-                    size={30}
-                    className="cursor-pointer hover:scale-110 transition-all duration-200"
+                <div className="w-full flex justify-end items-start p-6">
+                  <button onClick={() => deleteHandle(item.id)}>
+                    <IoIosHeart
+                      size={30}
+                      className="cursor-pointer hover:scale-110 transition-all duration-200"
+                    />
+                  </button>
+                </div>
+                <div className="flex justify-between items-center">
+                  <button
+                    onClick={() => addToCart(item.product.id, qtyItem)}
+                    className="py-2 px-4 bg-indigo-500 hover:bg-indigo-700 text-white rounded-lg transition-all duration-300 "
+                  >
+                    Add to Cart
+                  </button>
+                  <input
+                    onChange={(e) => (qtyItem = e.target.value)}
+                    type="number"
+                    className="w-16 pl-4"
+                    defaultValue={qtyItem}
                   />
-                </button>
-              </div>
-              <div className="flex justify-between items-center">
-                <button
-                  onClick={() => addToCart(item.product.id)}
-                  className="py-2 px-4 bg-indigo-500 hover:bg-indigo-700 text-white rounded-lg transition-all duration-300 "
-                >
-                  Add to Cart
-                </button>
-                <input
-                  onChange={(e) => setQuantity(e.target.value)}
-                  type="number"
-                  className="w-16 pl-4"
-                  defaultValue={1}
-                />
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
