@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
+import jwt from "jsonwebtoken";
 import midtransClient from "midtrans-client";
 import "dotenv/config";
 
@@ -70,4 +71,61 @@ export async function processTransaction(req, res) {
   } catch (error) {
     res.status(400).json({ error });
   }
+}
+
+export async function paymentSuccess(req, res) {
+  const { token } = req.cookies;
+
+  jwt.verify(token, process.env.JWT_SECRET, {}, async (err, user) => {
+    try {
+      if (err) throw err;
+
+      const checkUser = await prisma.user.findFirst({
+        where: {
+          name: user.name,
+          id: user.id,
+        },
+      });
+
+      if (!checkUser) throw "Error, You're not signed!";
+
+      let userId = user.id;
+
+      let { cartId, transaction } = req.body;
+
+      if (!cartId || !userId || !transaction) throw "Error: payment Error";
+
+      if (
+        transaction.fraud_status != "accept" &&
+        transaction.transaction_status != "settlement"
+      ) {
+        throw "Error: Transcastion Error";
+      }
+
+      const cart_items = await prisma.cart_item.findMany({
+        where: {
+          cartId,
+        },
+        include: {
+          product: true,
+        },
+      });
+
+      cart_items.map(async (item) => {
+        await prisma.history.create({
+          data: {
+            productId: item.productId,
+            userId,
+            quantity: item.quantity,
+            orderId: transaction.order_id,
+          },
+        });
+      });
+
+      // console.log(history);
+      res.status(200).json({ success: "Payment Success!" });
+    } catch (error) {
+      res.status(400).json({ error });
+    }
+  });
 }

@@ -94,9 +94,12 @@ export default function Cart() {
     if (token) {
       window.snap.pay(token, {
         onSuccess: async (result) => {
-          localStorage.setItem("pembayaran", JSON.stringify(result));
-          await ApiCarts.deleteAllItem(cartId);
-          setToken("");
+          if (result) {
+            localStorage.setItem("pembayaran", JSON.stringify(result));
+            await ApiCarts.deleteAllItem(cartId);
+            await ApiPayment.check(cartId, userId, result);
+            setToken("");
+          }
         },
         onPending: (result) => {
           localStorage.setItem("pembayaran", JSON.stringify(result));

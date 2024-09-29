@@ -13,6 +13,8 @@ import AllUsers from "./pages/users/AllUsers";
 import Product from "./pages/products/Product";
 import CreateProduct from "./pages/products/CreateProduct";
 import EditProduct from "./pages/products/EditProduct";
+import AllHistory from "./pages/history/AllHistory";
+import History from "./pages/history/History";
 
 function App() {
   return (
@@ -39,6 +41,22 @@ function App() {
         element={
           <Layout>
             <Likes />
+          </Layout>
+        }
+      />
+      <Route
+        path="/dashboard/history"
+        element={
+          <Layout>
+            <AllHistory />
+          </Layout>
+        }
+      />
+      <Route
+        path="/dashboard/history/:id"
+        element={
+          <Layout>
+            <History />
           </Layout>
         }
       />

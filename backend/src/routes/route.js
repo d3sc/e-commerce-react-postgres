@@ -28,6 +28,7 @@ import {
   storeCart,
 } from "../controllers/CartController.js";
 import { getUsers } from "../controllers/UsersController.js";
+import { getHistory } from "../controllers/HistoryController.js";
 
 // auth route
 router.post("/register", register);
@@ -59,5 +60,8 @@ router.delete("/cart-all-item", deleteAllItem);
 
 // quantity handle route
 router.post("/qty", changeQty);
+
+// History route
+router.get("/history", getHistory);
 
 export default router;

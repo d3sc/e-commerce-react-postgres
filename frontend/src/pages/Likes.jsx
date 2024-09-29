@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { IoIosHeart } from "react-icons/io";
 import { FaHeartCirclePlus } from "react-icons/fa6";
-import axios from "axios";
 import EmptyData from "../components/dashboard/EmptyData";
 import Check from "../middleware/auth/Check";
 import Swal from "sweetalert2";

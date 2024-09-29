@@ -7,6 +7,7 @@ import {
   LuShoppingCart,
   LuLogOut,
   LuHeart,
+  LuHistory,
 } from "react-icons/lu";
 import { FaBoxOpen } from "react-icons/fa";
 import { useState, useEffect, useContext } from "react";
@@ -39,13 +40,20 @@ export default function Sidebar() {
     },
     {
       id: 4,
+      path: "/dashboard/history",
+      name: "History",
+      icon: LuHistory,
+      strict: false,
+    },
+    {
+      id: 5,
       path: "/dashboard/products",
       name: "Products",
       icon: FaBoxOpen,
       strict: true,
     },
     {
-      id: 5,
+      id: 6,
       path: "/dashboard/users",
       name: "Users",
       icon: LuUser,

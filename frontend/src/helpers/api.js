@@ -121,6 +121,23 @@ const ApiPayment = {
 
     return data;
   },
+  check: async (cartId, userId, transaction) => {
+    const data = await axios.post("/api/payment/payment-success", {
+      cartId,
+      userId,
+      transaction,
+    });
+
+    return data;
+  },
 };
 
-export { ApiProducts, ApiLikes, ApiCarts, ApiUsers, ApiPayment };
+const ApiHistory = {
+  get: async () => {
+    const data = await axios.get("/history");
+
+    return data;
+  },
+};
+
+export { ApiProducts, ApiLikes, ApiCarts, ApiUsers, ApiPayment, ApiHistory };
